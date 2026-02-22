@@ -1,28 +1,48 @@
 diff a/tailwind.config.js b/tailwind.config.js	(rejected hunks)
-@@ -4,8 +4,24 @@ export default {
-     "./index.html",
-     "./src/**/*.{js,ts,jsx,tsx}",
-   ],
-+  darkMode: "class",
-   theme: {
+@@ -1,11 +1,36 @@
+ /** @type {import('tailwindcss').Config} */
+ export default {
+-  content: [
+-    "./index.html",
+-    "./src/**/*.{js,ts,jsx,tsx}",
+-  ],
+-  theme: {
 -    extend: {},
-+    extend: {
-+      colors: {
-+        "mono-bg": "#1c1c1e",
-+        "mono-surface": "#2c2c2e",
-+        "mono-border": "rgba(255, 255, 255, 0.2)",
-+        "mono-text-primary": "#f2f2f7",
-+        "mono-text-secondary": "#aeaeb2",
-+      },
-+      fontFamily: {
-+        serif: ["Playfair Display", "serif"],
-+        sans: ["Inter", "sans-serif"],
-+      },
-+      backgroundImage: {
-+        'soft-gradient': "radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 70%)",
-+      }
-+    },
-   },
-   plugins: [],
- }
+-  },
+-  plugins: [],
+-}
 \ No newline at end of file
++    content: [
++        "./index.html",
++        "./src/**/*.{js,ts,jsx,tsx}",
++    ],
++    darkMode: "class",
++    theme: {
++        extend: {
++            colors: {
++                "primary": "#1ff9f9",
++                "secondary-magenta": "#f91fde",
++                "secondary-lime": "#bef91f",
++                "background-light": "#f5f8f8",
++                "background-dark": "#0f1315", // Deep, almost black
++                "surface-dark": "#161b1e",
++                "surface-raised": "#1f2529",
++            },
++            fontFamily: {
++                "display": ["Space Grotesk", "sans-serif"]
++            },
++            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
++            boxShadow: {
++                'glow-primary': '0 0 10px rgba(31, 249, 249, 0.5), 0 0 20px rgba(31, 249, 249, 0.3)',
++                'glow-magenta': '0 0 10px rgba(249, 31, 222, 0.5), 0 0 20px rgba(249, 31, 222, 0.3)',
++                'glow-lime': '0 0 10px rgba(190, 249, 31, 0.5), 0 0 20px rgba(190, 249, 31, 0.3)',
++                'neumorphic-pressed': 'inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.05)',
++                'neumorphic-flat': '4px 4px 10px rgba(0,0,0,0.5), -1px -1px 3px rgba(255,255,255,0.05)',
++            },
++            backgroundImage: {
++                'grid-pattern': "linear-gradient(to right, #1f2529 1px, transparent 1px), linear-gradient(to bottom, #1f2529 1px, transparent 1px)",
++            }
++        },
++    },
++    plugins: [],
++}
