@@ -2,6 +2,22 @@
 
 @theme {
   --font-display: "Space Grotesk", sans-serif;
+  
+  --color-primary: #1ff9f9;
+  --color-secondary-magenta: #f91fde;
+  --color-secondary-lime: #bef91f;
+  --color-background-light: #f5f8f8;
+  --color-background-dark: #0f1315;
+  --color-surface-dark: #161b1e;
+  --color-surface-raised: #1f2529;
+
+  --shadow-glow-primary: 0 0 10px rgba(31, 249, 249, 0.5), 0 0 20px rgba(31, 249, 249, 0.3);
+  --shadow-glow-magenta: 0 0 10px rgba(249, 31, 222, 0.5), 0 0 20px rgba(249, 31, 222, 0.3);
+  --shadow-glow-lime: 0 0 10px rgba(190, 249, 31, 0.5), 0 0 20px rgba(190, 249, 31, 0.3);
+  --shadow-neumorphic-pressed: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.05);
+  --shadow-neumorphic-flat: 4px 4px 10px rgba(0,0,0,0.5), -1px -1px 3px rgba(255,255,255,0.05);
+
+  --background-image-grid-pattern: linear-gradient(to right, #1f2529 1px, transparent 1px), linear-gradient(to bottom, #1f2529 1px, transparent 1px);
 }
 
 body {
@@ -25,7 +41,7 @@ body {
 }
 .radar-line {
   transform-origin: center;
-  animation: radarSweep 24s linear infinite; /* Slowed down for 24h feel, though 24s is still fast. 24h is too slow for demo. Let's keep it decorative. */
+  animation: radarSweep 24s linear infinite; 
 }
 
 /* Pulse Animation */

@@ -1,1159 +1,706 @@
 diff --git a/index.html b/index.html
-index 0d50b75..aadedb3 100644
+index aadedb3..dba2078 100644
 --- a/index.html
 +++ b/index.html
-@@ -4,10 +4,10 @@
+@@ -4,7 +4,7 @@
      <meta charset="UTF-8" />
      <link rel="icon" type="image/svg+xml" href="/vite.svg" />
      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
--    <title>Chronos: The Fractal Lore Mapper</title>
-+    <title>Circadia: Bioluminescent Productivity</title>
+-    <title>Circadia: Bioluminescent Productivity</title>
++    <title>CodeLoom Studio</title>
      <link rel="preconnect" href="https://fonts.googleapis.com" />
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
--    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-   </head>
-   <body>
+     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 diff --git a/package-lock.json b/package-lock.json
-index 95e5755..f27d716 100644
+index f27d716..fd3219d 100644
 --- a/package-lock.json
 +++ b/package-lock.json
-@@ -8,9 +8,17 @@
-       "name": "app",
-       "version": "0.0.0",
-       "dependencies": {
-+        "@dnd-kit/core": "^6.3.1",
-+        "@dnd-kit/modifiers": "^9.0.0",
-+        "@dnd-kit/utilities": "^3.2.2",
+@@ -14,7 +14,9 @@
          "@tailwindcss/postcss": "^4.2.0",
-+        "clsx": "^2.1.1",
-+        "date-fns": "^4.1.0",
-+        "lucide-react": "^0.575.0",
+         "clsx": "^2.1.1",
+         "date-fns": "^4.1.0",
++        "html-to-image": "^1.11.13",
+         "lucide-react": "^0.575.0",
++        "prismjs": "^1.30.0",
          "react": "^19.2.0",
--        "react-dom": "^19.2.0"
-+        "react-dom": "^19.2.0",
-+        "tailwind-merge": "^3.5.0",
-+        "zustand": "^5.0.11"
-       },
+         "react-dom": "^19.2.0",
+         "tailwind-merge": "^3.5.0",
+@@ -23,6 +25,7 @@
        "devDependencies": {
          "@eslint/js": "^9.39.1",
-@@ -324,6 +332,59 @@
-         "node": ">=6.9.0"
+         "@types/node": "^24.10.1",
++        "@types/prismjs": "^1.26.6",
+         "@types/react": "^19.2.7",
+         "@types/react-dom": "^19.2.3",
+         "@vitejs/plugin-react": "^5.1.1",
+@@ -1269,6 +1272,13 @@
+         "undici-types": "~7.16.0"
        }
      },
-+    "node_modules/@dnd-kit/accessibility": {
-+      "version": "3.1.1",
-+      "resolved": "https://registry.npmjs.org/@dnd-kit/accessibility/-/accessibility-3.1.1.tgz",
-+      "integrity": "sha512-2P+YgaXF+gRsIihwwY1gCsQSYnu9Zyj2py8kY5fFvUM1qm2WA2u639R6YNVfU4GWr+ZM5mqEsfHZZLoRONbemw==",
-+      "license": "MIT",
-+      "dependencies": {
-+        "tslib": "^2.0.0"
-+      },
-+      "peerDependencies": {
-+        "react": ">=16.8.0"
-+      }
++    "node_modules/@types/prismjs": {
++      "version": "1.26.6",
++      "resolved": "https://registry.npmjs.org/@types/prismjs/-/prismjs-1.26.6.tgz",
++      "integrity": "sha512-vqlvI7qlMvcCBbVe0AKAb4f97//Hy0EBTaiW8AalRnG/xAN5zOiWWyrNqNXeq8+KAuvRewjCVY1+IPxk4RdNYw==",
++      "dev": true,
++      "license": "MIT"
 +    },
-+    "node_modules/@dnd-kit/core": {
-+      "version": "6.3.1",
-+      "resolved": "https://registry.npmjs.org/@dnd-kit/core/-/core-6.3.1.tgz",
-+      "integrity": "sha512-xkGBRQQab4RLwgXxoqETICr6S5JlogafbhNsidmrkVv2YRs5MLwpjoF2qpiGjQt8S9AoxtIV603s0GIUpY5eYQ==",
-+      "license": "MIT",
-+      "dependencies": {
-+        "@dnd-kit/accessibility": "^3.1.1",
-+        "@dnd-kit/utilities": "^3.2.2",
-+        "tslib": "^2.0.0"
-+      },
-+      "peerDependencies": {
-+        "react": ">=16.8.0",
-+        "react-dom": ">=16.8.0"
-+      }
-+    },
-+    "node_modules/@dnd-kit/modifiers": {
-+      "version": "9.0.0",
-+      "resolved": "https://registry.npmjs.org/@dnd-kit/modifiers/-/modifiers-9.0.0.tgz",
-+      "integrity": "sha512-ybiLc66qRGuZoC20wdSSG6pDXFikui/dCNGthxv4Ndy8ylErY0N3KVxY2bgo7AWwIbxDmXDg3ylAFmnrjcbVvw==",
-+      "license": "MIT",
-+      "dependencies": {
-+        "@dnd-kit/utilities": "^3.2.2",
-+        "tslib": "^2.0.0"
-+      },
-+      "peerDependencies": {
-+        "@dnd-kit/core": "^6.3.0",
-+        "react": ">=16.8.0"
-+      }
-+    },
-+    "node_modules/@dnd-kit/utilities": {
-+      "version": "3.2.2",
-+      "resolved": "https://registry.npmjs.org/@dnd-kit/utilities/-/utilities-3.2.2.tgz",
-+      "integrity": "sha512-+MKAJEOfaBe5SmV6t34p80MMKhjvUz0vRrvVJbPT0WElzaOJ/1xs+D+KDv+tD/NE5ujfrChEcshd4fLn0wpiqg==",
-+      "license": "MIT",
-+      "dependencies": {
-+        "tslib": "^2.0.0"
-+      },
-+      "peerDependencies": {
-+        "react": ">=16.8.0"
-+      }
-+    },
-     "node_modules/@emnapi/core": {
-       "version": "1.8.1",
-       "resolved": "https://registry.npmjs.org/@emnapi/core/-/core-1.8.1.tgz",
-@@ -1212,7 +1273,7 @@
+     "node_modules/@types/react": {
        "version": "19.2.14",
        "resolved": "https://registry.npmjs.org/@types/react/-/react-19.2.14.tgz",
-       "integrity": "sha512-ilcTH/UniCkMdtexkoCN0bI7pMcJDvmQFPvuPvmEaYA/NSfFTAgdUSLAoVjaRJm7+6PvcM+q1zYOwS4wTYMF9w==",
--      "dev": true,
-+      "devOptional": true,
-       "license": "MIT",
-       "dependencies": {
-         "csstype": "^3.2.2"
-@@ -1744,6 +1805,15 @@
-         "url": "https://github.com/chalk/chalk?sponsor=1"
+@@ -2329,6 +2339,12 @@
+         "hermes-estree": "0.25.1"
        }
      },
-+    "node_modules/clsx": {
-+      "version": "2.1.1",
-+      "resolved": "https://registry.npmjs.org/clsx/-/clsx-2.1.1.tgz",
-+      "integrity": "sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==",
++    "node_modules/html-to-image": {
++      "version": "1.11.13",
++      "resolved": "https://registry.npmjs.org/html-to-image/-/html-to-image-1.11.13.tgz",
++      "integrity": "sha512-cuOPoI7WApyhBElTTb9oqsawRvZ0rHhaHwghRLlTuffoD1B2aDemlCruLeZrUIIdvG7gs9xeELEPm6PhuASqrg==",
++      "license": "MIT"
++    },
+     "node_modules/ignore": {
+       "version": "5.3.2",
+       "resolved": "https://registry.npmjs.org/ignore/-/ignore-5.3.2.tgz",
+@@ -2995,6 +3011,15 @@
+         "node": ">= 0.8.0"
+       }
+     },
++    "node_modules/prismjs": {
++      "version": "1.30.0",
++      "resolved": "https://registry.npmjs.org/prismjs/-/prismjs-1.30.0.tgz",
++      "integrity": "sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==",
 +      "license": "MIT",
 +      "engines": {
 +        "node": ">=6"
 +      }
 +    },
-     "node_modules/color-convert": {
-       "version": "2.0.1",
-       "resolved": "https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz",
-@@ -1797,9 +1867,19 @@
-       "version": "3.2.3",
-       "resolved": "https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz",
-       "integrity": "sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==",
--      "dev": true,
-+      "devOptional": true,
-       "license": "MIT"
-     },
-+    "node_modules/date-fns": {
-+      "version": "4.1.0",
-+      "resolved": "https://registry.npmjs.org/date-fns/-/date-fns-4.1.0.tgz",
-+      "integrity": "sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==",
-+      "license": "MIT",
-+      "funding": {
-+        "type": "github",
-+        "url": "https://github.com/sponsors/kossnocorp"
-+      }
-+    },
-     "node_modules/debug": {
-       "version": "4.4.3",
-       "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
-@@ -2698,6 +2778,15 @@
-         "yallist": "^3.0.2"
-       }
-     },
-+    "node_modules/lucide-react": {
-+      "version": "0.575.0",
-+      "resolved": "https://registry.npmjs.org/lucide-react/-/lucide-react-0.575.0.tgz",
-+      "integrity": "sha512-VuXgKZrk0uiDlWjGGXmKV6MSk9Yy4l10qgVvzGn2AWBx1Ylt0iBexKOAoA6I7JO3m+M9oeovJd3yYENfkUbOeg==",
-+      "license": "ISC",
-+      "peerDependencies": {
-+        "react": "^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0"
-+      }
-+    },
-     "node_modules/magic-string": {
-       "version": "0.30.21",
-       "resolved": "https://registry.npmjs.org/magic-string/-/magic-string-0.30.21.tgz",
-@@ -3070,6 +3159,16 @@
-         "node": ">=8"
-       }
-     },
-+    "node_modules/tailwind-merge": {
-+      "version": "3.5.0",
-+      "resolved": "https://registry.npmjs.org/tailwind-merge/-/tailwind-merge-3.5.0.tgz",
-+      "integrity": "sha512-I8K9wewnVDkL1NTGoqWmVEIlUcB9gFriAEkXkfCjX5ib8ezGxtR3xD7iZIxrfArjEsH7F1CHD4RFUtxefdqV/A==",
-+      "license": "MIT",
-+      "funding": {
-+        "type": "github",
-+        "url": "https://github.com/sponsors/dcastil"
-+      }
-+    },
-     "node_modules/tailwindcss": {
-       "version": "4.2.0",
-       "resolved": "https://registry.npmjs.org/tailwindcss/-/tailwindcss-4.2.0.tgz",
-@@ -3123,8 +3222,7 @@
-       "version": "2.8.1",
-       "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz",
-       "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==",
--      "license": "0BSD",
--      "optional": true
-+      "license": "0BSD"
-     },
-     "node_modules/type-check": {
-       "version": "0.4.0",
-@@ -3372,6 +3470,35 @@
-       "peerDependencies": {
-         "zod": "^3.25.0 || ^4.0.0"
-       }
-+    },
-+    "node_modules/zustand": {
-+      "version": "5.0.11",
-+      "resolved": "https://registry.npmjs.org/zustand/-/zustand-5.0.11.tgz",
-+      "integrity": "sha512-fdZY+dk7zn/vbWNCYmzZULHRrss0jx5pPFiOuMZ/5HJN6Yv3u+1Wswy/4MpZEkEGhtNH+pwxZB8OKgUBPzYAGg==",
-+      "license": "MIT",
-+      "engines": {
-+        "node": ">=12.20.0"
-+      },
-+      "peerDependencies": {
-+        "@types/react": ">=18.0.0",
-+        "immer": ">=9.0.6",
-+        "react": ">=18.0.0",
-+        "use-sync-external-store": ">=1.2.0"
-+      },
-+      "peerDependenciesMeta": {
-+        "@types/react": {
-+          "optional": true
-+        },
-+        "immer": {
-+          "optional": true
-+        },
-+        "react": {
-+          "optional": true
-+        },
-+        "use-sync-external-store": {
-+          "optional": true
-+        }
-+      }
-     }
-   }
- }
+     "node_modules/punycode": {
+       "version": "2.3.1",
+       "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.3.1.tgz",
 diff --git a/package.json b/package.json
-index fbd48f5..7606df0 100644
+index 7606df0..a18dba1 100644
 --- a/package.json
 +++ b/package.json
-@@ -10,9 +10,17 @@
-     "preview": "vite preview"
-   },
-   "dependencies": {
-+    "@dnd-kit/core": "^6.3.1",
-+    "@dnd-kit/modifiers": "^9.0.0",
-+    "@dnd-kit/utilities": "^3.2.2",
+@@ -16,7 +16,9 @@
      "@tailwindcss/postcss": "^4.2.0",
-+    "clsx": "^2.1.1",
-+    "date-fns": "^4.1.0",
-+    "lucide-react": "^0.575.0",
+     "clsx": "^2.1.1",
+     "date-fns": "^4.1.0",
++    "html-to-image": "^1.11.13",
+     "lucide-react": "^0.575.0",
++    "prismjs": "^1.30.0",
      "react": "^19.2.0",
--    "react-dom": "^19.2.0"
-+    "react-dom": "^19.2.0",
-+    "tailwind-merge": "^3.5.0",
-+    "zustand": "^5.0.11"
-   },
+     "react-dom": "^19.2.0",
+     "tailwind-merge": "^3.5.0",
+@@ -25,6 +27,7 @@
    "devDependencies": {
      "@eslint/js": "^9.39.1",
+     "@types/node": "^24.10.1",
++    "@types/prismjs": "^1.26.6",
+     "@types/react": "^19.2.7",
+     "@types/react-dom": "^19.2.3",
+     "@vitejs/plugin-react": "^5.1.1",
 diff --git a/src/App.tsx b/src/App.tsx
-index 1fc01b5..e2c44f4 100644
+index e2c44f4..e13e529 100644
 --- a/src/App.tsx
 +++ b/src/App.tsx
-@@ -1,215 +1,103 @@
-+import { useEffect, useState } from 'react';
-+import { DndContext, type DragEndEvent, DragOverlay, useSensor, useSensors, PointerSensor, type DragStartEvent } from '@dnd-kit/core';
-+import { Layout } from './components/Layout';
-+import { Header } from './components/Header';
-+import { RadialDial } from './components/RadialDial';
-+import { TaskBacklog } from './components/TaskBacklog';
-+import { useStore } from './store/useStore';
-+import { calculateAngle, degreesToTime } from './utils/time';
-+import { TaskCard } from './components/TaskCard';
-+
+@@ -1,103 +1,51 @@
+-import { useEffect, useState } from 'react';
+-import { DndContext, type DragEndEvent, DragOverlay, useSensor, useSensors, PointerSensor, type DragStartEvent } from '@dnd-kit/core';
+-import { Layout } from './components/Layout';
+-import { Header } from './components/Header';
+-import { RadialDial } from './components/RadialDial';
+-import { TaskBacklog } from './components/TaskBacklog';
+-import { useStore } from './store/useStore';
+-import { calculateAngle, degreesToTime } from './utils/time';
+-import { TaskCard } from './components/TaskCard';
++import { CodeInput } from './components/CodeInput';
++import { PreviewCanvas } from './components/PreviewCanvas';
++import { ControlPanel } from './components/ControlPanel';
++import { ExportButton } from './components/ExportButton';
++import { useCodeLoomStore } from './store/useCodeLoomStore';
+ 
  function App() {
--  return (
--    <>
--      <main className="absolute inset-0 w-full h-full overflow-hidden z-0 bg-[#08080a]">
--        {/* Background Grid */}
--        <div 
--          className="absolute inset-0 opacity-[0.08]" 
--          style={{
--            backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)',
--            backgroundSize: '40px 40px'
--          }}
--        ></div>
-+  const setCurrentTime = useStore((state) => state.setCurrentTime);
-+  const moveTask = useStore((state) => state.moveTask);
-+  const tasks = useStore((state) => state.tasks);
-+  const [activeId, setActiveId] = useState<string | null>(null);
+-  const setCurrentTime = useStore((state) => state.setCurrentTime);
+-  const moveTask = useStore((state) => state.moveTask);
+-  const tasks = useStore((state) => state.tasks);
+-  const [activeId, setActiveId] = useState<string | null>(null);
++  const { darkMode } = useCodeLoomStore();
  
--        {/* Semantic Zoom Container */}
--        <div className="absolute inset-0 transform -translate-x-[20%] transition-transform duration-700 ease-out">
--          
--          {/* Connection Layer */}
--          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible">
--            <path className="connector-line opacity-40" d="M380,450 C480,450 450,280 580,280" fill="none" stroke="#666"></path>
--            <path className="drag-thread opacity-100" d="M1250,820 C1000,820 500,600 380,520" fill="none" stroke="#eab308" strokeLinecap="butt"></path>
--            <rect className="animate-pulse" fill="#eab308" height="8" width="8" x="376" y="516"></rect>
--          </svg>
-+  useEffect(() => {
-+    const interval = setInterval(() => {
-+      setCurrentTime(new Date());
-+    }, 60000);
-+    return () => clearInterval(interval);
-+  }, [setCurrentTime]);
- 
--          {/* Node: Obsidian Spire */}
--          <div className="absolute top-[480px] left-[200px] w-64 bg-[#111] border-2 border-[#444] p-0 shadow-none">
--            <div className="h-8 bg-[#222] border-b-2 border-[#444] flex items-center justify-between px-2">
--              <span className="text-[10px] font-bold uppercase tracking-widest text-[#888]">LOC-01</span>
--              <div className="w-2 h-2 bg-red-500 rounded-none"></div>
--            </div>
--            <div className="p-4">
--              <h3 className="text-white font-bold text-lg leading-none mb-2 uppercase">Obsidian Spire</h3>
--              <div className="h-20 w-full bg-[#000] border border-[#333] relative grayscale">
--                <img 
--                  alt="Dark gothic spire" 
--                  className="w-full h-full object-cover opacity-60" 
--                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAByVTR-yxgCClyixotMUZlPor2O-lqoFPHuXmgVjWa4bFIy_XOXtFuDFgEpSxw9jT2LbYlAUdQ6_jrnu2IC7WYOEozccyXXobBTeyyixE_B9_SnkRIGd1IXmMVOVLZhrGxZMDqisvQxGzBcYenfCND1earVxqjOC5rYdJ96dVnhzBlMHchYwLidtYINofq5wxl9RBCCETqyug6U5ioV2hLz-xhcfr1b-_6WXJvMU-9P5k20l5aAECVQpD1NoTgoSqzCsTve9ON1cA"
--                />
--              </div>
--            </div>
--          </div>
-+  const sensors = useSensors(
-+    useSensor(PointerSensor, {
-+      activationConstraint: {
-+        distance: 8,
-+      },
-+    })
-+  );
- 
--          {/* Node: Active Node (Whispering Woods) */}
--          <div className="absolute top-[200px] left-[580px] w-72 bg-[#111] border-2 border-white shadow-[8px_8px_0px_rgba(0,0,0,1)] z-10">
--            <div className="bg-white text-black text-xs font-bold px-3 py-1 uppercase tracking-wider border-b-2 border-white flex justify-between items-center">
--              <span>Active Node</span>
--              <span className="w-2 h-2 bg-black"></span>
--            </div>
--            <div className="h-32 w-full bg-[#000] border-b-2 border-white overflow-hidden relative">
--              <img 
--                alt="Mystical forest" 
--                className="w-full h-full object-cover" 
--                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAByVTR-yxgCClyixotMUZlPor2O-lqoFPHuXmgVjWa4bFIy_XOXtFuDFgEpSxw9jT2LbYlAUdQ6_jrnu2IC7WYOEozccyXXobBTeyyixE_B9_SnkRIGd1IXmMVOVLZhrGxZMDqisvQxGzBcYenfCND1earVxqjOC5rYdJ96dVnhzBlMHchYwLidtYINofq5wxl9RBCCETqyug6U5ioV2hLz-xhcfr1b-_6WXJvMU-9P5k20l5aAECVQpD1NoTgoSqzCsTve9ON1cA"
--              />
--              <div className="absolute inset-0 bg-black/20"></div>
--            </div>
--            <div className="p-4 bg-[#111]">
--              <h3 className="text-white font-black text-2xl mb-2 uppercase tracking-tight leading-none">Whispering<br/>Woods</h3>
--              <p className="text-xs text-[#888] font-mono border-t border-[#333] pt-2 mt-2">ID: 8X-992 // SECTOR 4</p>
--            </div>
--          </div>
-+  const handleDragStart = (event: DragStartEvent) => {
-+    setActiveId(event.active.id as string);
-+  };
- 
--          {/* Node: Small Draft */}
--          <div className="absolute top-[150px] left-[250px] w-40 border-2 border-[#333] bg-[#0a0a0a] p-2 opacity-50">
--            <div className="h-2 w-full bg-[#222] mb-2"></div>
--            <div className="h-12 w-full border border-[#222] bg-[#111]"></div>
--          </div>
-+  const handleDragEnd = (event: DragEndEvent) => {
-+    const { active, over } = event;
-+    
-+    // Always clear active ID first
-+    setActiveId(null);
- 
--        </div>
--      </main>
-+    if (over && over.id === 'radial-dial') {
-+        const droppedRect = active.rect.current.translated;
-+        if (!droppedRect) return;
- 
--      {/* Sidebar (Codex) */}
--      <aside className="absolute top-0 right-0 bottom-0 w-[600px] bg-[#111] z-50 flex flex-col border-l-2 border-[#333] shadow-none">
--        
--        {/* Header */}
--        <header className="h-14 flex items-center justify-between px-6 border-b-2 border-[#333] bg-[#0a0a0a] shrink-0">
--          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wide">
--            <span className="text-[#666]">ROOT</span>
--            <span className="text-[#444]">/</span>
--            <span className="text-[#888]">FRACTURED LANDS</span>
--            <span className="text-[#444]">/</span>
--            <span className="bg-white text-black px-1">WHISPERING WOODS</span>
--          </div>
--          <div className="flex gap-[-2px]"> 
--            <button className="w-8 h-8 flex items-center justify-center border-2 border-[#333] bg-[#111] text-white hover:bg-white hover:text-black transition-colors -ml-[2px]">
--              <span className="material-symbols-outlined text-lg">more_horiz</span>
--            </button>
--            <button className="w-8 h-8 flex items-center justify-center border-2 border-[#333] bg-[#111] text-white hover:bg-red-600 hover:text-white transition-colors -ml-[2px]">
--              <span className="material-symbols-outlined text-lg">close</span>
--            </button>
--          </div>
--        </header>
-+        const dropX = droppedRect.left + droppedRect.width / 2;
-+        const dropY = droppedRect.top + droppedRect.height / 2;
- 
--        {/* Relational Matrix */}
--        <div className="border-b-2 border-[#333] bg-[#16161a] p-6 shrink-0">
--          <div className="flex items-center justify-between mb-4">
--            <h4 className="text-sm font-black uppercase tracking-wider text-white flex items-center gap-2">
--              <span className="w-3 h-3 bg-yellow-500 inline-block"></span>
--              Relational Matrix
--            </h4>
--            <button className="text-[10px] font-bold bg-transparent hover:bg-white hover:text-black text-white border border-[#444] px-3 py-1 uppercase transition-colors">
--              Expand Graph
--            </button>
--          </div>
--          <div className="grid grid-cols-2 gap-3">
--            <div className="flex items-center justify-between bg-[#0a0a0a] border border-[#333] p-3 group hover:border-white transition-colors cursor-pointer">
--              <div className="flex items-center gap-3">
--                <span className="material-symbols-outlined text-base text-[#666]">water_drop</span>
--                <span className="text-sm font-bold text-[#ccc]">Sunken Grotto</span>
--              </div>
--              <span className="text-[10px] font-mono font-bold text-[#444] border border-[#333] px-1 bg-[#111] group-hover:bg-white group-hover:text-black">NEAR</span>
--            </div>
--            <div className="flex items-center justify-between bg-[#1a1a10] border border-yellow-500/50 p-3 relative overflow-hidden">
--              <div className="flex items-center gap-3 z-10">
--                <div className="w-2 h-2 bg-yellow-500 animate-pulse"></div>
--                <span className="text-sm font-bold text-yellow-500 italic">Linking...</span>
--              </div>
--              <div className="absolute right-0 top-0 bottom-0 w-8 bg-yellow-500 flex items-center justify-center">
--                <span className="material-symbols-outlined text-sm text-black font-bold">link</span>
--              </div>
--            </div>
--            <button className="col-span-2 flex items-center justify-center py-2 border border-dashed border-[#444] text-[#444] hover:text-white hover:border-white transition-colors text-xs font-bold uppercase tracking-widest">
--              + Add Connection
--            </button>
--          </div>
--        </div>
+-  useEffect(() => {
+-    const interval = setInterval(() => {
+-      setCurrentTime(new Date());
+-    }, 60000);
+-    return () => clearInterval(interval);
+-  }, [setCurrentTime]);
 -
--        {/* Scrollable Content */}
--        <div className="flex-1 overflow-y-auto overflow-x-hidden relative no-scrollbar bg-[#0a0a0a]">
--          <div className="h-48 w-full relative border-b-2 border-[#333]">
--            <img 
--              className="w-full h-full object-cover opacity-40 grayscale contrast-125" 
--              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAByVTR-yxgCClyixotMUZlPor2O-lqoFPHuXmgVjWa4bFIy_XOXtFuDFgEpSxw9jT2LbYlAUdQ6_jrnu2IC7WYOEozccyXXobBTeyyixE_B9_SnkRIGd1IXmMVOVLZhrGxZMDqisvQxGzBcYenfCND1earVxqjOC5rYdJ96dVnhzBlMHchYwLidtYINofq5wxl9RBCCETqyug6U5ioV2hLz-xhcfr1b-_6WXJvMU-9P5k20l5aAECVQpD1NoTgoSqzCsTve9ON1cA"
--              alt="Whispering Woods Detail"
--            />
--            <div className="absolute inset-0 bg-[#0a0a0a] mix-blend-multiply"></div>
--            <div className="absolute bottom-0 left-0 bg-black text-white px-4 py-1 text-xs font-mono border-t border-r border-[#333]">IMG_REF_992</div>
--            <button className="absolute top-4 right-4 bg-black border border-white text-white px-3 py-1 text-xs font-bold hover:bg-white hover:text-black transition-colors uppercase">
--              Replace
--            </button>
--          </div>
+-  const sensors = useSensors(
+-    useSensor(PointerSensor, {
+-      activationConstraint: {
+-        distance: 8,
+-      },
+-    })
+-  );
 -
--          <div className="p-8 pb-32">
--            <div className="flex items-start gap-4 mb-8">
--              <div className="w-16 h-16 bg-[#111] border-2 border-[#333] flex items-center justify-center shrink-0">
--                <span className="material-symbols-outlined text-3xl text-white">forest</span>
--              </div>
--              <div>
--                <h1 className="font-black text-5xl text-white leading-[0.9] uppercase tracking-tighter mb-2">Whispering<br/>Woods</h1>
--                <div className="text-[#666] font-mono text-xs">LAST EDITED: TODAY 14:02</div>
--              </div>
--            </div>
-+        const dialElement = document.getElementById('radial-dial');
-+        
-+        if (dialElement) {
-+            const dialRect = dialElement.getBoundingClientRect();
-+            const centerX = dialRect.left + dialRect.width / 2;
-+            const centerY = dialRect.top + dialRect.height / 2;
- 
--            <div className="grid grid-cols-3 gap-px bg-[#333] border-2 border-[#333] mb-10">
--              <div className="bg-[#111] p-3 hover:bg-[#161616] transition-colors">
--                <span className="text-[9px] uppercase tracking-widest text-[#666] font-bold block mb-1">Type</span>
--                <div className="flex items-center gap-1 text-xs font-bold text-white">
--                  <span className="material-symbols-outlined text-xs">terrain</span>
--                  Territory
--                </div>
--              </div>
--              <div className="bg-[#111] p-3 hover:bg-[#161616] transition-colors">
--                <span className="text-[9px] uppercase tracking-widest text-[#666] font-bold block mb-1">Status</span>
--                <div className="flex items-center gap-1 text-xs font-bold text-white">
--                  <span className="w-2 h-2 bg-green-500"></span>
--                  Active
--                </div>
--              </div>
--              <div className="bg-[#111] p-3 hover:bg-[#161616] transition-colors">
--                <span className="text-[9px] uppercase tracking-widest text-[#666] font-bold block mb-1">Owner</span>
--                <div className="flex items-center gap-1 text-xs font-bold text-white">
--                  <span className="text-indigo-400 font-black">GM</span>
--                  System
--                </div>
--              </div>
--            </div>
-+            const angle = calculateAngle(dropX, dropY, centerX, centerY);
-+            const time = degreesToTime(angle);
-+            
-+            moveTask(active.id as string, time);
-+        }
-+    }
-+  };
- 
--            <div className="tiptap-editor outline-none max-w-none">
--              <p>The Whispering Woods is not merely a forest, but a sentient organism of vast proportions. Travelers report that the trees themselves seem to shift positions when not directly observed, creating a labyrinth that defies traditional cartography.</p>
--              <blockquote>
--                "The leaves don't rustle with the wind; they rustle with intent. Watch your periphery, for that is where the Unseen Fae dwell."
--                <footer className="mt-2 text-sm text-[#666] not-italic font-mono uppercase">— Elder Kaelen's Journal, Entry 402</footer>
--              </blockquote>
--              <h2>Flora &amp; Fauna</h2>
--              <p>Notable species include the <span className="bg-emerald-900/30 text-emerald-400 border-b border-emerald-500 font-medium px-1">Silver-Barked Oak</span> and the luminous <span className="bg-purple-900/30 text-purple-400 border-b border-purple-500 font-medium px-1">Ghost Ferns</span>, which glow faintly in the presence of latent magic.</p>
--              <p>Recent scouting expeditions have uncovered ruins near the northern edge, suggesting a civilization pre-dating the Age of Dust.</p>
--              <div className="my-8 border-l-4 border-yellow-600 bg-[#161610] p-4 flex gap-4">
--                <span className="material-symbols-outlined text-yellow-600">lightbulb</span>
--                <div className="text-sm text-[#ccc]">
--                  <strong className="text-yellow-600 uppercase block text-xs tracking-wider mb-1">GM Note</strong>
--                  Players with Perception &gt; 15 may notice the subtle hum of the leylines converging here.
--                </div>
--              </div>
--            </div>
--          </div>
--        </div>
-+  const activeTask = activeId ? tasks.find((t) => t.id === activeId) : null;
- 
--        {/* Footer */}
--        <div className="bg-[#0a0a0a] border-t-2 border-[#333] p-4 flex justify-between items-center shrink-0">
--          <div className="text-[10px] font-mono text-[#444] uppercase">
--            v3.0.2 // BRUTAL_MOD
--          </div>
--          <div className="flex gap-2">
--            <button className="bg-[#111] border border-[#333] text-[#888] px-3 py-1.5 text-xs font-bold uppercase hover:bg-white hover:text-black transition-colors">
--              Discard
+-  const handleDragStart = (event: DragStartEvent) => {
+-    setActiveId(event.active.id as string);
+-  };
+-
+-  const handleDragEnd = (event: DragEndEvent) => {
+-    const { active, over } = event;
+-    
+-    // Always clear active ID first
+-    setActiveId(null);
+-
+-    if (over && over.id === 'radial-dial') {
+-        const droppedRect = active.rect.current.translated;
+-        if (!droppedRect) return;
 +  return (
-+    <Layout>
-+      <Header />
-+      <DndContext 
-+        sensors={sensors} 
-+        onDragStart={handleDragStart}
-+        onDragEnd={handleDragEnd}
-+      >
-+        <main className="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-24 relative">
-+           <RadialDial />
-+           <TaskBacklog />
-+        </main>
-+        <DragOverlay>
-+            {activeTask ? <TaskCard task={activeTask} /> : null}
-+        </DragOverlay>
-+      </DndContext>
-+      
-+      {/* Footer / Dock */}
-+      <footer className="absolute bottom-0 w-full px-6 py-4 bg-surface-dark/95 backdrop-blur-xl border-t border-surface-raised z-30">
-+        <div className="flex items-center justify-between gap-4 max-w-sm mx-auto">
-+            <button className="flex-1 group h-14 rounded-lg bg-surface-raised shadow-neumorphic-flat active:shadow-neumorphic-pressed active:scale-95 transition-all flex flex-col items-center justify-center border border-transparent active:border-red-500/20">
-+                <span className="material-symbols-outlined text-slate-400 group-active:text-red-500 transition-colors" style={{ fontVariationSettings: "'FILL' 1" }}>stop</span>
-+                <span className="text-[10px] font-bold text-slate-500 uppercase mt-1">Stop</span>
-+            </button>
-+            <button className="flex-[1.5] group h-16 -mt-4 rounded-xl bg-surface-raised shadow-[0_0_20px_rgba(31,249,249,0.1),_4px_4px_10px_rgba(0,0,0,0.5)] active:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.5)] active:scale-95 transition-all flex flex-col items-center justify-center border border-primary/20 hover:border-primary/50">
-+                <span className="material-symbols-outlined text-primary group-hover:drop-shadow-[0_0_5px_#1ff9f9] transition-all" style={{ fontSize: '36px', fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
-+                <span className="text-[10px] font-bold text-primary uppercase mt-1">Focus</span>
-             </button>
--            <button className="bg-white text-black border border-white px-3 py-1.5 text-xs font-bold uppercase hover:bg-[#ccc] transition-colors">
--              Save Changes
-+            <button className="flex-1 group h-14 rounded-lg bg-surface-raised shadow-neumorphic-flat active:shadow-neumorphic-pressed active:scale-95 transition-all flex flex-col items-center justify-center border border-transparent active:border-yellow-500/20">
-+                <span className="material-symbols-outlined text-slate-400 group-active:text-yellow-500 transition-colors">delete_outline</span>
-+                <span className="text-[10px] font-bold text-slate-500 uppercase mt-1">Clear</span>
-             </button>
--          </div>
-         </div>
--      </aside>
--    </>
-+      </footer>
-+    </Layout>
++    <div className={`min-h-screen w-full flex flex-col ${darkMode ? 'dark' : ''} bg-background-dark text-slate-100 font-display`}>
++      {/* Background Grid Overlay */}
++      <div className="fixed inset-0 pointer-events-none opacity-20 z-0 bg-grid"></div>
+ 
+-        const dropX = droppedRect.left + droppedRect.width / 2;
+-        const dropY = droppedRect.top + droppedRect.height / 2;
++      {/* Header */}
++      <header className="flex items-center justify-between px-6 py-4 border-b border-surface-raised bg-surface-dark/80 backdrop-blur-md sticky top-0 z-50">
++        <div className="flex items-center gap-2">
++            <span className="material-symbols-outlined text-primary animate-pulse-beat" style={{ fontSize: '28px' }}>code</span>
++            <h1 className="text-xl font-bold tracking-wider font-display">
++                CODELOOM <span className="text-primary font-normal text-sm tracking-widest opacity-80">STUDIO</span>
++            </h1>
++        </div>
++        <div className="flex items-center gap-4">
++             <button className="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Documentation</button>
++             <button className="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Github</button>
++        </div>
++      </header>
+ 
+-        const dialElement = document.getElementById('radial-dial');
+-        
+-        if (dialElement) {
+-            const dialRect = dialElement.getBoundingClientRect();
+-            const centerX = dialRect.left + dialRect.width / 2;
+-            const centerY = dialRect.top + dialRect.height / 2;
++      {/* Main Content */}
++      <main className="flex-1 flex flex-col lg:flex-row overflow-hidden relative z-10">
++         {/* Left/Top Panel: Controls & Input */}
++         <aside className="w-full lg:w-[400px] flex-shrink-0 flex flex-col bg-surface-dark/90 border-r border-surface-raised overflow-y-auto p-6 gap-6 z-40 backdrop-blur-md shadow-2xl">
++            <ControlPanel />
++            <div className="flex-1 min-h-[300px] flex flex-col">
++                <CodeInput />
++            </div>
++            <ExportButton />
++         </aside>
+ 
+-            const angle = calculateAngle(dropX, dropY, centerX, centerY);
+-            const time = degreesToTime(angle);
++         {/* Center Panel: Preview */}
++         <section className="flex-1 relative overflow-hidden flex flex-col bg-black/40">
++            {/* Decorative Gradients */}
++            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 via-transparent to-secondary-magenta/5 pointer-events-none"></div>
+             
+-            moveTask(active.id as string, time);
+-        }
+-    }
+-  };
+-
+-  const activeTask = activeId ? tasks.find((t) => t.id === activeId) : null;
+-
+-  return (
+-    <Layout>
+-      <Header />
+-      <DndContext 
+-        sensors={sensors} 
+-        onDragStart={handleDragStart}
+-        onDragEnd={handleDragEnd}
+-      >
+-        <main className="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-24 relative">
+-           <RadialDial />
+-           <TaskBacklog />
+-        </main>
+-        <DragOverlay>
+-            {activeTask ? <TaskCard task={activeTask} /> : null}
+-        </DragOverlay>
+-      </DndContext>
+-      
+-      {/* Footer / Dock */}
+-      <footer className="absolute bottom-0 w-full px-6 py-4 bg-surface-dark/95 backdrop-blur-xl border-t border-surface-raised z-30">
+-        <div className="flex items-center justify-between gap-4 max-w-sm mx-auto">
+-            <button className="flex-1 group h-14 rounded-lg bg-surface-raised shadow-neumorphic-flat active:shadow-neumorphic-pressed active:scale-95 transition-all flex flex-col items-center justify-center border border-transparent active:border-red-500/20">
+-                <span className="material-symbols-outlined text-slate-400 group-active:text-red-500 transition-colors" style={{ fontVariationSettings: "'FILL' 1" }}>stop</span>
+-                <span className="text-[10px] font-bold text-slate-500 uppercase mt-1">Stop</span>
+-            </button>
+-            <button className="flex-[1.5] group h-16 -mt-4 rounded-xl bg-surface-raised shadow-[0_0_20px_rgba(31,249,249,0.1),_4px_4px_10px_rgba(0,0,0,0.5)] active:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.5)] active:scale-95 transition-all flex flex-col items-center justify-center border border-primary/20 hover:border-primary/50">
+-                <span className="material-symbols-outlined text-primary group-hover:drop-shadow-[0_0_5px_#1ff9f9] transition-all" style={{ fontSize: '36px', fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+-                <span className="text-[10px] font-bold text-primary uppercase mt-1">Focus</span>
+-            </button>
+-            <button className="flex-1 group h-14 rounded-lg bg-surface-raised shadow-neumorphic-flat active:shadow-neumorphic-pressed active:scale-95 transition-all flex flex-col items-center justify-center border border-transparent active:border-yellow-500/20">
+-                <span className="material-symbols-outlined text-slate-400 group-active:text-yellow-500 transition-colors">delete_outline</span>
+-                <span className="text-[10px] font-bold text-slate-500 uppercase mt-1">Clear</span>
+-            </button>
+-        </div>
+-      </footer>
+-    </Layout>
++            <PreviewCanvas />
++         </section>
++      </main>
++    </div>
    );
  }
  
-diff --git a/src/components/Header.tsx b/src/components/Header.tsx
+diff --git a/src/components/CodeInput.tsx b/src/components/CodeInput.tsx
 new file mode 100644
-index 0000000..b313c12
+index 0000000..a5c2c1b
 --- /dev/null
-+++ b/src/components/Header.tsx
-@@ -0,0 +1,29 @@
-+import { useStore } from '../store/useStore';
++++ b/src/components/CodeInput.tsx
+@@ -0,0 +1,33 @@
++import React from 'react';
++import { useCodeLoomStore } from '../store/useCodeLoomStore';
++import { detectLanguage } from '../utils/detectLanguage';
 +
-+export const Header = () => {
-+  const currentTime = useStore((state) => state.currentTime);
++export const CodeInput = () => {
++  const { code, setCode, setLanguage } = useCodeLoomStore();
 +
-+  const formattedTime = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
++  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
++    const newCode = e.target.value;
++    setCode(newCode);
++    
++    // Auto-detect language
++    const detected = detectLanguage(newCode);
++    if (detected) {
++        setLanguage(detected);
++    }
++  };
 +
 +  return (
-+    <header className="flex items-center justify-between px-6 py-4 border-b border-surface-raised bg-surface-dark/80 backdrop-blur-md sticky top-0 z-20">
-+      <div className="flex items-center gap-2">
-+        <span className="material-symbols-outlined text-primary animate-pulse-beat" style={{ fontSize: '28px' }}>
-+          graphic_eq
-+        </span>
-+        <h1 className="text-lg font-bold tracking-wider text-slate-100">CIRCADIA</h1>
-+      </div>
-+      <div className="flex flex-col items-center">
-+        <div className="text-3xl font-bold text-primary animate-pulse-beat leading-none">
-+          {formattedTime}
-+        </div>
-+        <div className="text-[10px] text-slate-400 font-medium tracking-widest uppercase mt-1">
-+          CURRENT TIME
-+        </div>
-+      </div>
-+      <button className="p-2 rounded-full hover:bg-surface-raised transition-colors text-slate-400 hover:text-white">
-+        <span className="material-symbols-outlined">settings</span>
-+      </button>
-+    </header>
++    <div className="w-full h-full flex flex-col p-4 bg-surface-dark/50 backdrop-blur-sm border border-surface-raised rounded-xl shadow-neumorphic-pressed">
++      <label className="text-xs font-bold text-slate-400 tracking-wider uppercase mb-2">
++        Source Code
++      </label>
++      <textarea
++        className="w-full h-full bg-transparent resize-none focus:outline-none font-mono text-sm text-slate-300 placeholder-slate-600"
++        value={code}
++        onChange={handleChange}
++        placeholder="Paste your code here..."
++        spellCheck={false}
++      />
++    </div>
 +  );
 +};
-diff --git a/src/components/Layout.tsx b/src/components/Layout.tsx
+diff --git a/src/components/ControlPanel.tsx b/src/components/ControlPanel.tsx
 new file mode 100644
-index 0000000..09d79ef
+index 0000000..c906084
 --- /dev/null
-+++ b/src/components/Layout.tsx
-@@ -0,0 +1,19 @@
-+import React from 'react';
++++ b/src/components/ControlPanel.tsx
+@@ -0,0 +1,130 @@
++import { useCodeLoomStore } from '../store/useCodeLoomStore';
++import { clsx } from 'clsx';
 +
-+interface LayoutProps {
-+  children: React.ReactNode;
-+}
++export const ControlPanel = () => {
++  const { 
++    language, setLanguage,
++    padding, setPadding,
++    borderRadius, setBorderRadius,
++    typographyScale, setTypographyScale,
++    background, setBackground,
++    darkMode, toggleDarkMode
++  } = useCodeLoomStore();
 +
-+export const Layout: React.FC<LayoutProps> = ({ children }) => {
++  const backgroundGradients = [
++    'linear-gradient(135deg, #1f2529, #0f1315)', // Default Dark
++    'linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)',
++    'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)',
++    'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)',
++    'linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%)',
++    'linear-gradient(to top, #c471f5 0%, #fa71cd 100%)',
++    'linear-gradient(to right, #43e97b 0%, #38f9d7 100%)',
++    'linear-gradient(to top, #30cfd0 0%, #330867 100%)',
++  ];
++
 +  return (
-+    <div className="bg-background-light dark:bg-background-dark min-h-screen text-slate-900 dark:text-slate-100 relative overflow-hidden">
-+      {/* Background Grid */}
-+      <div className="fixed inset-0 pointer-events-none opacity-20 z-0 bg-grid-pattern bg-grid"></div>
-+      
-+      {/* Main Container */}
-+      <div className="relative z-10 flex flex-col h-screen max-w-md mx-auto overflow-hidden bg-background-light/50 dark:bg-background-dark/50 backdrop-blur-sm shadow-2xl border-x border-surface-raised">
-+        {children}
++    <div className="w-full flex flex-col p-6 bg-surface-dark/80 backdrop-blur-md border border-surface-raised rounded-xl shadow-glass gap-6">
++      <div className="flex justify-between items-center border-b border-surface-raised pb-4">
++        <h2 className="text-lg font-bold text-slate-200 tracking-wider font-display">SETTINGS</h2>
++        <button 
++            onClick={toggleDarkMode}
++            className="p-2 rounded-full hover:bg-surface-raised transition-colors text-slate-400 hover:text-white"
++            title="Toggle Dark Mode"
++        >
++            <span className="material-symbols-outlined">{darkMode ? 'light_mode' : 'dark_mode'}</span>
++        </button>
++      </div>
++
++      {/* Language */}
++      <div className="flex flex-col gap-2">
++        <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Language</label>
++        <select 
++            value={language}
++            onChange={(e) => setLanguage(e.target.value)}
++            className="bg-surface-raised text-slate-200 text-sm rounded-lg p-2.5 focus:ring-primary focus:border-primary block w-full border border-surface-dark/50"
++        >
++            <option value="javascript">JavaScript</option>
++            <option value="typescript">TypeScript</option>
++            <option value="jsx">JSX</option>
++            <option value="tsx">TSX</option>
++            <option value="css">CSS</option>
++            <option value="html">HTML</option>
++            <option value="python">Python</option>
++            <option value="java">Java</option>
++            <option value="c">C</option>
++            <option value="rust">Rust</option>
++            <option value="go">Go</option>
++            <option value="json">JSON</option>
++            <option value="bash">Bash</option>
++        </select>
++      </div>
++
++      {/* Padding */}
++      <div className="flex flex-col gap-2">
++        <div className="flex justify-between">
++            <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Padding</label>
++            <span className="text-xs text-primary">{padding}px</span>
++        </div>
++        <input 
++            type="range" 
++            min="0" 
++            max="128" 
++            value={padding} 
++            onChange={(e) => setPadding(Number(e.target.value))}
++            className="w-full h-2 bg-surface-raised rounded-lg appearance-none cursor-pointer accent-primary"
++        />
++      </div>
++
++      {/* Border Radius */}
++      <div className="flex flex-col gap-2">
++        <div className="flex justify-between">
++            <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Radius</label>
++            <span className="text-xs text-primary">{borderRadius}px</span>
++        </div>
++        <input 
++            type="range" 
++            min="0" 
++            max="64" 
++            value={borderRadius} 
++            onChange={(e) => setBorderRadius(Number(e.target.value))}
++            className="w-full h-2 bg-surface-raised rounded-lg appearance-none cursor-pointer accent-primary"
++        />
++      </div>
++
++      {/* Typography Scale */}
++      <div className="flex flex-col gap-2">
++        <div className="flex justify-between">
++            <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Scale</label>
++            <span className="text-xs text-primary">{typographyScale}x</span>
++        </div>
++        <input 
++            type="range" 
++            min="0.5" 
++            max="2" 
++            step="0.1"
++            value={typographyScale} 
++            onChange={(e) => setTypographyScale(Number(e.target.value))}
++            className="w-full h-2 bg-surface-raised rounded-lg appearance-none cursor-pointer accent-primary"
++        />
++      </div>
++
++      {/* Background Gradient */}
++      <div className="flex flex-col gap-2">
++        <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Background</label>
++        <div className="grid grid-cols-4 gap-2">
++            {backgroundGradients.map((grad, i) => (
++                <button 
++                    key={i}
++                    onClick={() => setBackground(grad)}
++                    className={clsx(
++                        "w-8 h-8 rounded-full shadow-md hover:scale-110 transition-transform border-2",
++                        background === grad ? "border-white" : "border-transparent"
++                    )}
++                    style={{ background: grad }}
++                />
++            ))}
++        </div>
 +      </div>
 +    </div>
 +  );
 +};
-diff --git a/src/components/RadialDial.tsx b/src/components/RadialDial.tsx
+diff --git a/src/components/ExportButton.tsx b/src/components/ExportButton.tsx
 new file mode 100644
-index 0000000..ac3ceab
+index 0000000..4a75190
 --- /dev/null
-+++ b/src/components/RadialDial.tsx
-@@ -0,0 +1,124 @@
-+import { useDroppable } from '@dnd-kit/core';
-+import { useStore } from '../store/useStore';
-+import { timeToDegrees, getPointOnCircle } from '../utils/time';
++++ b/src/components/ExportButton.tsx
+@@ -0,0 +1,54 @@
++import { useState } from 'react';
++import { toPng, toSvg } from 'html-to-image';
 +
-+const RADIUS = {
-+  high: 190,
-+  medium: 155,
-+  low: 120,
-+};
++export const ExportButton = () => {
++  const [loading, setLoading] = useState(false);
 +
-+const STROKE_WIDTH = 18;
++  const handleExport = async (format: 'png' | 'svg') => {
++    setLoading(true);
++    const node = document.getElementById('preview-canvas');
++    if (!node) {
++        setLoading(false);
++        return;
++    }
 +
-+const describeArc = (x: number, y: number, radius: number, startAngle: number, endAngle: number) => {
-+    let end = endAngle;
-+    if (end < startAngle) end += 360;
-+    
-+    const p1 = getPointOnCircle(radius, startAngle, x, y);
-+    const p2 = getPointOnCircle(radius, end, x, y);
-+
-+    const largeArcFlag = end - startAngle <= 180 ? "0" : "1";
-+    
-+    return [
-+        "M", p1.x, p1.y, 
-+        "A", radius, radius, 0, largeArcFlag, 1, p2.x, p2.y
-+    ].join(" ");
-+};
-+
-+export const RadialDial = () => {
-+  const { setNodeRef } = useDroppable({
-+    id: 'radial-dial',
-+  });
-+  
-+  const allTasks = useStore((state) => state.tasks);
-+  const tasks = allTasks.filter((t) => t.assignedTime !== null);
-+  const currentTime = useStore((state) => state.currentTime);
-+
-+  const timeMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
-+  const timeDegrees = timeToDegrees(timeMinutes);
-+
-+  return (
-+    <section className="relative flex-shrink-0 w-full aspect-square flex items-center justify-center p-4 my-2">
-+      {/* Center Button */}
-+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-+        <div className="w-24 h-24 rounded-full border border-surface-raised bg-surface-dark shadow-neumorphic-flat flex items-center justify-center z-10 pointer-events-auto cursor-pointer hover:bg-surface-raised transition-colors group">
-+          <span className="material-symbols-outlined text-slate-600 text-4xl group-hover:text-primary transition-colors">play_circle</span>
-+        </div>
-+      </div>
-+
-+      <div ref={setNodeRef} id="radial-dial" className="relative w-full h-full max-w-[360px] max-h-[360px]">
-+        <svg className="w-full h-full" viewBox="0 0 400 400">
-+           <defs>
-+            <filter id="glow-cyan" x="-50%" y="-50%" width="200%" height="200%">
-+                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-+                <feMerge>
-+                    <feMergeNode in="coloredBlur"/>
-+                    <feMergeNode in="SourceGraphic"/>
-+                </feMerge>
-+            </filter>
-+             <filter id="glow-magenta" x="-50%" y="-50%" width="200%" height="200%">
-+                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-+                <feMerge>
-+                    <feMergeNode in="coloredBlur"/>
-+                    <feMergeNode in="SourceGraphic"/>
-+                </feMerge>
-+            </filter>
-+             <filter id="glow-lime" x="-50%" y="-50%" width="200%" height="200%">
-+                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-+                <feMerge>
-+                    <feMergeNode in="coloredBlur"/>
-+                    <feMergeNode in="SourceGraphic"/>
-+                </feMerge>
-+            </filter>
-+          </defs>
-+
-+          {/* Background Rings */}
-+          <circle cx="200" cy="200" r={RADIUS.high} fill="none" stroke="#1f2529" strokeWidth="24" className="transition-colors hover:stroke-surface-raised" />
-+          <circle cx="200" cy="200" r={RADIUS.medium} fill="none" stroke="#1f2529" strokeWidth="24" className="transition-colors hover:stroke-surface-raised" />
-+          <circle cx="200" cy="200" r={RADIUS.low} fill="none" stroke="#1f2529" strokeWidth="24" className="transition-colors hover:stroke-surface-raised" />
-+          <circle cx="200" cy="200" r={85} fill="none" stroke="#1f2529" strokeWidth="24" />
-+
-+          {/* Render Tasks */}
-+          {tasks.map((task) => {
-+             const startAngle = timeToDegrees(task.assignedTime!);
-+             const endAngle = timeToDegrees(task.assignedTime! + task.duration);
-+             const radius = RADIUS[task.energy];
-+             const color = task.energy === 'high' ? '#f91fde' : task.energy === 'medium' ? '#bef91f' : '#1ff9f9';
-+             const filter = task.energy === 'high' ? 'url(#glow-magenta)' : task.energy === 'medium' ? 'url(#glow-lime)' : 'url(#glow-cyan)';
-+             
-+             return (
-+               <g key={task.id} className="cursor-pointer hover:opacity-80 transition-opacity">
-+                 <path 
-+                   d={describeArc(200, 200, radius, startAngle, endAngle)} 
-+                   fill="none" 
-+                   stroke={color} 
-+                   strokeWidth={STROKE_WIDTH} 
-+                   strokeLinecap="round"
-+                   filter={filter}
-+                 />
-+               </g>
-+             );
-+          })}
-+
-+          {/* Current Time Indicator (Radar Line) */}
-+           <line 
-+             x1="200" y1="200" 
-+             x2="200" y2="20" 
-+             stroke="#1ff9f9" 
-+             strokeWidth="2"
-+             strokeDasharray="4 4"
-+             className="opacity-50"
-+             transform={`rotate(${timeDegrees} 200 200)`}
-+           />
-+        </svg>
++    try {
++        let dataUrl;
++        if (format === 'png') {
++            dataUrl = await toPng(node, { cacheBust: true, pixelRatio: 2 });
++        } else {
++            dataUrl = await toSvg(node, { cacheBust: true });
++        }
 +        
-+        {/* Radar Sweep Animation Overlay */}
-+        <div className="absolute inset-0 pointer-events-none radar-line z-20">
-+          <div className="w-full h-full relative">
-+            <div className="absolute top-0 left-1/2 w-[2px] h-1/2 bg-gradient-to-b from-primary via-primary/50 to-transparent origin-bottom shadow-[0_0_10px_#1ff9f9]"></div>
-+          </div>
-+        </div>
-+      </div>
-+    </section>
-+  );
-+};
-diff --git a/src/components/TaskBacklog.tsx b/src/components/TaskBacklog.tsx
-new file mode 100644
-index 0000000..8a5473e
---- /dev/null
-+++ b/src/components/TaskBacklog.tsx
-@@ -0,0 +1,26 @@
-+import { useStore } from '../store/useStore';
-+import { TaskCard } from './TaskCard';
-+
-+export const TaskBacklog = () => {
-+  const allTasks = useStore((state) => state.tasks);
-+  const tasks = allTasks.filter((t) => t.assignedTime === null);
-+
-+  return (
-+    <section className="flex flex-col gap-4 px-6 mt-4 pb-24">
-+      <div className="flex justify-between items-center text-xs font-bold text-slate-400 tracking-wider uppercase">
-+        <span>Backlog</span>
-+        <span className="text-primary">{tasks.length} TASKS</span>
-+      </div>
-+      <div className="flex gap-4 overflow-x-auto no-scrollbar bg-surface-dark/50 p-4 rounded-xl border border-surface-raised shadow-neumorphic-pressed min-h-[120px] items-center">
-+        {tasks.map((task) => (
-+          <TaskCard key={task.id} task={task} />
-+        ))}
-+        {tasks.length === 0 && (
-+          <div className="w-full text-center text-slate-600 text-xs italic py-4">
-+            No tasks in backlog
-+          </div>
-+        )}
-+      </div>
-+    </section>
-+  );
-+};
-diff --git a/src/components/TaskCard.tsx b/src/components/TaskCard.tsx
-new file mode 100644
-index 0000000..fb72fd3
---- /dev/null
-+++ b/src/components/TaskCard.tsx
-@@ -0,0 +1,61 @@
-+import React from 'react';
-+import { useDraggable } from '@dnd-kit/core';
-+import { CSS } from '@dnd-kit/utilities';
-+import type { Task } from '../store/useStore';
-+import clsx from 'clsx';
-+
-+interface TaskCardProps {
-+  task: Task;
-+}
-+
-+export const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
-+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
-+    id: task.id,
-+    data: { task },
-+  });
-+
-+  const style = {
-+    transform: CSS.Translate.toString(transform),
++        const link = document.createElement('a');
++        link.download = `codeloom-${Date.now()}.${format}`;
++        link.href = dataUrl;
++        link.click();
++    } catch (err) {
++        console.error('oops, something went wrong!', err);
++    } finally {
++        setLoading(false);
++    }
 +  };
 +
-+  const energyColor = 
-+    task.energy === 'high' ? 'text-secondary-magenta' :
-+    task.energy === 'medium' ? 'text-secondary-lime' :
-+    'text-primary';
-+  
-+  const borderColor = 
-+    task.energy === 'high' ? 'border-secondary-magenta/50' :
-+    task.energy === 'medium' ? 'border-secondary-lime/50' :
-+    'border-primary/50';
++  return (
++    <div className="w-full flex gap-4 mt-4">
++      <button 
++        onClick={() => handleExport('png')}
++        disabled={loading}
++        className="flex-1 flex items-center justify-center gap-2 py-3 bg-surface-raised hover:bg-surface-raised/80 text-white rounded-lg shadow-neumorphic-flat transition-all active:scale-95 disabled:opacity-50 border border-white/5"
++      >
++        <span className="material-symbols-outlined">image</span>
++        <span className="text-xs font-bold uppercase tracking-wider">Export PNG</span>
++      </button>
++      <button 
++        onClick={() => handleExport('svg')}
++        disabled={loading}
++        className="flex-1 flex items-center justify-center gap-2 py-3 bg-surface-raised hover:bg-surface-raised/80 text-white rounded-lg shadow-neumorphic-flat transition-all active:scale-95 disabled:opacity-50 border border-white/5"
++      >
++        <span className="material-symbols-outlined">code</span>
++        <span className="text-xs font-bold uppercase tracking-wider">Export SVG</span>
++      </button>
++    </div>
++  );
++};
+diff --git a/src/components/PreviewCanvas.tsx b/src/components/PreviewCanvas.tsx
+new file mode 100644
+index 0000000..53e7582
+--- /dev/null
++++ b/src/components/PreviewCanvas.tsx
+@@ -0,0 +1,84 @@
++import { useEffect, useRef } from 'react';
++import Prism from 'prismjs';
++import 'prismjs/themes/prism-tomorrow.css'; 
++// Import common languages
++import 'prismjs/components/prism-javascript';
++import 'prismjs/components/prism-typescript';
++import 'prismjs/components/prism-css';
++import 'prismjs/components/prism-json';
++import 'prismjs/components/prism-jsx';
++import 'prismjs/components/prism-tsx';
++import 'prismjs/components/prism-java';
++import 'prismjs/components/prism-python';
++import 'prismjs/components/prism-c';
++import 'prismjs/components/prism-rust';
++import 'prismjs/components/prism-go';
++import 'prismjs/components/prism-markup'; // html
++import 'prismjs/components/prism-bash';
 +
-+  const shadowColor = 
-+    task.energy === 'high' ? 'shadow-[0_0_15px_rgba(249,31,222,0.15)]' :
-+    task.energy === 'medium' ? 'shadow-[0_0_15px_rgba(190,249,31,0.15)]' :
-+    'shadow-[0_0_15px_rgba(31,249,249,0.15)]';
++import { useCodeLoomStore } from '../store/useCodeLoomStore';
++
++export const PreviewCanvas = () => {
++  const { code, language, padding, borderRadius, typographyScale, background, darkMode } = useCodeLoomStore();
++  const codeRef = useRef<HTMLElement>(null);
++  
++  useEffect(() => {
++    if (codeRef.current) {
++      // Force Prism to highlight again
++      Prism.highlightElement(codeRef.current);
++    }
++  }, [code, language]);
 +
 +  return (
-+    <div
-+      ref={setNodeRef}
-+      style={style}
-+      {...listeners}
-+      {...attributes}
-+      className={clsx(
-+        "flex flex-col gap-2 min-w-[120px] p-3 rounded-xl bg-surface-dark border transition-all cursor-grab active:cursor-grabbing",
-+        borderColor,
-+        shadowColor,
-+        isDragging ? 'opacity-50 z-50 scale-105' : 'opacity-100',
-+        "hover:border-opacity-100 hover:scale-[1.02]"
-+      )}
-+    >
-+      <div className="flex justify-between items-start">
-+         <span className={clsx("material-symbols-outlined text-sm", energyColor)}>
-+            {task.energy === 'high' ? 'bolt' : task.energy === 'medium' ? 'battery_charging_full' : 'spa'}
-+         </span>
-+         <span className="text-[10px] font-mono text-slate-500 font-bold">{task.duration}m</span>
++    <div className="w-full h-full flex items-center justify-center p-8 bg-black/20 overflow-auto">
++      <div 
++        id="preview-canvas"
++        className="transition-all duration-300 ease-in-out relative shadow-2xl min-w-[300px]"
++        style={{
++          background: background,
++          padding: `${padding}px`,
++          borderRadius: `${borderRadius}px`,
++        }}
++      >
++        <div 
++            className={`relative overflow-hidden ${darkMode ? 'bg-black/40' : 'bg-white/80'} backdrop-blur-md border border-white/10 shadow-lg`}
++            style={{
++                borderRadius: `${Math.max(4, borderRadius - 4)}px`, 
++            }}
++        >
++            {/* Window Controls (Mac-style) */}
++            <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-white/5">
++                <div className="w-3 h-3 rounded-full bg-[#ff5f56] shadow-sm"></div>
++                <div className="w-3 h-3 rounded-full bg-[#ffbd2e] shadow-sm"></div>
++                <div className="w-3 h-3 rounded-full bg-[#27c93f] shadow-sm"></div>
++                <div className="flex-1 text-center text-[10px] text-white/30 font-mono uppercase tracking-widest ml-[-36px]">
++                    {language}
++                </div>
++            </div>
++
++            <div 
++                className="overflow-x-auto"
++                style={{
++                    fontSize: `${14 * typographyScale}px`,
++                    lineHeight: `${1.5 * typographyScale}`,
++                }}
++            >
++                <pre 
++                    className={`!bg-transparent !m-0 !p-6 font-mono ${!darkMode ? '!text-slate-800' : '!text-slate-200'}`} 
++                    style={{ margin: 0 }}
++                >
++                    <code ref={codeRef} className={`language-${language}`}>
++                        {code}
++                    </code>
++                </pre>
++            </div>
++        </div>
++        
++        {/* Watermark / Branding */}
++        <div className="absolute bottom-2 right-4 opacity-30 pointer-events-none">
++             <span className="text-[10px] font-bold text-white uppercase tracking-widest font-display">CodeLoom</span>
++        </div>
 +      </div>
-+      <h3 className="text-xs font-bold text-slate-200 leading-tight line-clamp-2">
-+        {task.title}
-+      </h3>
 +    </div>
 +  );
 +};
 diff --git a/src/index.css b/src/index.css
-index 350ad27..4f55e6e 100644
+index 4f55e6e..2067fcb 100644
 --- a/src/index.css
 +++ b/src/index.css
-@@ -1,104 +1,52 @@
- @import "tailwindcss";
+@@ -2,6 +2,22 @@
  
--@custom-variant dark (&:where(.dark, .dark *));
--
  @theme {
--  --color-brut-bg: #0a0a0f;
--  --color-brut-panel: #111116;
--  --color-brut-border: #333333;
--  --color-brut-accent: #eab308;
--  --color-brut-text: #ffffff;
--  --color-brut-text-muted: #888888;
--  --color-brut-red: #ef4444;
--  --color-brut-blue: #3b82f6;
--
--  --font-sans: "Inter", "Helvetica", "Arial", sans-serif;
--}
--
--/* Custom Utilities */
--@utility no-scrollbar {
--  -ms-overflow-style: none;
--  scrollbar-width: none;
--  &::-webkit-scrollbar {
--    display: none;
--  }
--}
--
--@utility brut-border {
--  border: 2px solid #333;
--}
--
--@utility brut-border-r {
--  border-right: 2px solid #333;
--}
--
--@utility brut-border-b {
--  border-bottom: 2px solid #333;
-+  --font-display: "Space Grotesk", sans-serif;
+   --font-display: "Space Grotesk", sans-serif;
++  
++  --color-primary: #1ff9f9;
++  --color-secondary-magenta: #f91fde;
++  --color-secondary-lime: #bef91f;
++  --color-background-light: #f5f8f8;
++  --color-background-dark: #0f1315;
++  --color-surface-dark: #161b1e;
++  --color-surface-raised: #1f2529;
++
++  --shadow-glow-primary: 0 0 10px rgba(31, 249, 249, 0.5), 0 0 20px rgba(31, 249, 249, 0.3);
++  --shadow-glow-magenta: 0 0 10px rgba(249, 31, 222, 0.5), 0 0 20px rgba(249, 31, 222, 0.3);
++  --shadow-glow-lime: 0 0 10px rgba(190, 249, 31, 0.5), 0 0 20px rgba(190, 249, 31, 0.3);
++  --shadow-neumorphic-pressed: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.05);
++  --shadow-neumorphic-flat: 4px 4px 10px rgba(0,0,0,0.5), -1px -1px 3px rgba(255,255,255,0.05);
++
++  --background-image-grid-pattern: linear-gradient(to right, #1f2529 1px, transparent 1px), linear-gradient(to bottom, #1f2529 1px, transparent 1px);
  }
  
--@utility brut-border-l {
--  border-left: 2px solid #333;
-+body {
-+  font-family: 'Space Grotesk', sans-serif;
-+  background-color: #0f1315;
-+  overflow-x: hidden;
-+  color: #f5f8f8;
+ body {
+@@ -25,7 +41,7 @@ body {
+ }
+ .radar-line {
+   transform-origin: center;
+-  animation: radarSweep 24s linear infinite; /* Slowed down for 24h feel, though 24s is still fast. 24h is too slow for demo. Let's keep it decorative. */
++  animation: radarSweep 24s linear infinite; 
  }
  
--@utility brut-border-t {
--  border-top: 2px solid #333;
-+/* Custom Grid Background */
-+.bg-grid {
-+  background-size: 40px 40px;
-+  mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
- }
- 
--@utility connector-line {
--  stroke-dasharray: 8, 8;
--  stroke-width: 2px;
-+/* Radar Sweep Animation */
-+@keyframes radarSweep {
-+  from { transform: rotate(0deg); }
-+  to { transform: rotate(360deg); }
- }
--
--@utility drag-thread {
--  stroke-dasharray: 10, 10;
--  stroke-width: 4px;
--  animation: flow 20s linear infinite;
-+.radar-line {
-+  transform-origin: center;
-+  animation: radarSweep 24s linear infinite; /* Slowed down for 24h feel, though 24s is still fast. 24h is too slow for demo. Let's keep it decorative. */
- }
- 
--@keyframes flow {
--  from { stroke-dashoffset: 200; }
--  to { stroke-dashoffset: 0; }
-+/* Pulse Animation */
-+@keyframes pulseBeat {
-+  0% { transform: scale(1); opacity: 0.8; }
-+  50% { transform: scale(1.05); opacity: 1; text-shadow: 0 0 15px currentColor; }
-+  100% { transform: scale(1); opacity: 0.8; }
- }
--
--/* Tiptap Editor Styles */
--.tiptap-editor p {
--  margin-bottom: 1em;
--  line-height: 1.4;
--  color: #d4d4d4;
--  font-weight: 400;
--  font-size: 1.1rem;
-+.animate-pulse-beat {
-+  animation: pulseBeat 2s ease-in-out infinite;
- }
- 
--.tiptap-editor h2 {
--  font-weight: 800;
--  font-size: 1.75rem;
--  margin-top: 1.5em;
--  margin-bottom: 0.5em;
--  color: #fff;
--  text-transform: uppercase;
--  letter-spacing: -0.02em;
--  border-bottom: 2px solid #333;
--  padding-bottom: 0.25em;
-+/* Hide Scrollbar */
-+::-webkit-scrollbar {
-+  width: 0px;
-+  background: transparent;
- }
--
--.tiptap-editor blockquote {
--  border-left: 4px solid #eab308;
--  background: #1a1a1e;
--  padding: 1rem;
--  font-style: italic;
--  color: #fff;
--  margin-bottom: 1.5em;
--  font-weight: 500;
-+.no-scrollbar::-webkit-scrollbar {
-+  display: none;
- }
--
--/* Base Styles */
--body {
--  font-family: var(--font-sans);
--  background-color: #050508;
--  color: var(--color-brut-text);
--  @apply h-screen w-full overflow-hidden flex relative antialiased selection:bg-yellow-500 selection:text-black;
--}
--
--#root {
--  @apply h-full w-full;
-+.no-scrollbar {
-+  -ms-overflow-style: none;
-+  scrollbar-width: none;
- }
-diff --git a/src/store/useStore.ts b/src/store/useStore.ts
+ /* Pulse Animation */
+diff --git a/src/store/useCodeLoomStore.ts b/src/store/useCodeLoomStore.ts
 new file mode 100644
-index 0000000..aa6fc23
+index 0000000..f111821
 --- /dev/null
-+++ b/src/store/useStore.ts
-@@ -0,0 +1,54 @@
++++ b/src/store/useCodeLoomStore.ts
+@@ -0,0 +1,37 @@
 +import { create } from 'zustand';
 +
-+export type EnergyLevel = 'high' | 'medium' | 'low';
-+
-+export interface Task {
-+  id: string;
-+  title: string;
-+  duration: number; // in minutes
-+  energy: EnergyLevel;
-+  assignedTime: number | null; // minutes from midnight (0-1440) or null if backlog
++interface CodeLoomState {
++  code: string;
++  language: string;
++  padding: number;
++  borderRadius: number;
++  typographyScale: number;
++  background: string;
++  darkMode: boolean;
++  
++  setCode: (code: string) => void;
++  setLanguage: (language: string) => void;
++  setPadding: (padding: number) => void;
++  setBorderRadius: (borderRadius: number) => void;
++  setTypographyScale: (scale: number) => void;
++  setBackground: (background: string) => void;
++  toggleDarkMode: () => void;
 +}
 +
-+export interface Schedule {
-+  sleepTime: number; // hour 0-24
-+  wakeTime: number; // hour 0-24
-+  peakTime: number; // hour 0-24
-+}
++export const useCodeLoomStore = create<CodeLoomState>((set) => ({
++  code: '// Paste your code here\nconsole.log("Hello, World!");',
++  language: 'javascript',
++  padding: 32,
++  borderRadius: 16,
++  typographyScale: 1,
++  background: 'linear-gradient(135deg, #1f2529, #0f1315)',
++  darkMode: true,
 +
-+interface StoreState {
-+  tasks: Task[];
-+  schedule: Schedule;
-+  currentTime: Date;
-+  addTask: (task: Omit<Task, 'id' | 'assignedTime'>) => void;
-+  moveTask: (id: string, assignedTime: number | null) => void;
-+  updateSchedule: (schedule: Partial<Schedule>) => void;
-+  setCurrentTime: (time: Date) => void;
-+}
-+
-+export const useStore = create<StoreState>((set) => ({
-+  tasks: [
-+    { id: '1', title: 'Deep Work: Core Architecture', duration: 90, energy: 'high', assignedTime: null },
-+    { id: '2', title: 'Team Sync', duration: 30, energy: 'medium', assignedTime: null },
-+    { id: '3', title: 'Email Triage', duration: 15, energy: 'low', assignedTime: null },
-+    { id: '4', title: 'Design Review', duration: 60, energy: 'high', assignedTime: null },
-+    { id: '5', title: 'Documentation', duration: 45, energy: 'medium', assignedTime: null },
-+    { id: '6', title: 'Break / Meditation', duration: 15, energy: 'low', assignedTime: null },
-+  ],
-+  schedule: {
-+    sleepTime: 23,
-+    wakeTime: 7,
-+    peakTime: 10,
-+  },
-+  currentTime: new Date(),
-+  addTask: (task) => set((state) => ({
-+    tasks: [...state.tasks, { ...task, id: Math.random().toString(36).substr(2, 9), assignedTime: null }]
-+  })),
-+  moveTask: (id, assignedTime) => set((state) => ({
-+    tasks: state.tasks.map((t) => t.id === id ? { ...t, assignedTime } : t)
-+  })),
-+  updateSchedule: (newSchedule) => set((state) => ({
-+    schedule: { ...state.schedule, ...newSchedule }
-+  })),
-+  setCurrentTime: (time) => set({ currentTime: time }),
++  setCode: (code) => set({ code }),
++  setLanguage: (language) => set({ language }),
++  setPadding: (padding) => set({ padding }),
++  setBorderRadius: (borderRadius) => set({ borderRadius }),
++  setTypographyScale: (typographyScale) => set({ typographyScale }),
++  setBackground: (background) => set({ background }),
++  toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
 +}));
-diff --git a/src/utils/time.ts b/src/utils/time.ts
+diff --git a/src/utils/detectLanguage.ts b/src/utils/detectLanguage.ts
 new file mode 100644
-index 0000000..36b6f0a
+index 0000000..2f70f74
 --- /dev/null
-+++ b/src/utils/time.ts
-@@ -0,0 +1,31 @@
-+export const formatTime = (totalMinutes: number): string => {
-+  const h = Math.floor(totalMinutes / 60) % 24;
-+  const m = Math.floor(totalMinutes % 60);
-+  return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
-+};
++++ b/src/utils/detectLanguage.ts
+@@ -0,0 +1,22 @@
++export function detectLanguage(code: string): string {
++  if (!code) return 'javascript';
++  
++  const trimmedCode = code.trim();
 +
-+export const timeToDegrees = (minutes: number): number => {
-+  return (minutes / 1440) * 360;
-+};
++  // Basic Heuristics
++  if (trimmedCode.startsWith('<!DOCTYPE html>') || trimmedCode.includes('</html>')) return 'html';
++  if (trimmedCode.includes('import React') || trimmedCode.includes('export default function') || trimmedCode.includes('className=')) return 'tsx';
++  if (trimmedCode.includes('public class') || trimmedCode.includes('System.out.println')) return 'java';
++  if (trimmedCode.includes('def ') && trimmedCode.includes(':')) return 'python';
++  if (trimmedCode.includes('#include <stdio.h>') || trimmedCode.includes('int main(')) return 'c';
++  if (trimmedCode.includes('fn main()') || trimmedCode.includes('println!')) return 'rust';
++  if (trimmedCode.includes('package main') && trimmedCode.includes('func main()')) return 'go';
++  if (trimmedCode.includes('<?php')) return 'php';
++  if (trimmedCode.includes('background-color:') || trimmedCode.includes('margin:')) return 'css';
++  if (trimmedCode.startsWith('{') && trimmedCode.endsWith('}')) return 'json';
 +
-+export const degreesToTime = (degrees: number): number => {
-+  let d = degrees % 360;
-+  if (d < 0) d += 360;
-+  return Math.round((d / 360) * 1440);
-+};
++  // Default to JavaScript if it looks like JS
++  if (trimmedCode.includes('const ') || trimmedCode.includes('let ') || trimmedCode.includes('console.log') || trimmedCode.includes('function')) return 'javascript';
 +
-+export const getPointOnCircle = (radius: number, degrees: number, cx: number, cy: number) => {
-+  const radians = (degrees - 90) * (Math.PI / 180); 
-+  return {
-+    x: cx + radius * Math.cos(radians),
-+    y: cy + radius * Math.sin(radians),
-+  };
-+};
-+
-+export const calculateAngle = (x: number, y: number, cx: number, cy: number): number => {
-+  const dx = x - cx;
-+  const dy = y - cy;
-+  let theta = Math.atan2(dy, dx); 
-+  theta *= 180 / Math.PI; 
-+  return (theta + 90 + 360) % 360; 
-+};
-diff --git a/tailwind.config.js b/tailwind.config.js
-index 89a305e..57035bb 100644
---- a/tailwind.config.js
-+++ b/tailwind.config.js
-@@ -1,11 +1,36 @@
- /** @type {import('tailwindcss').Config} */
- export default {
--  content: [
--    "./index.html",
--    "./src/**/*.{js,ts,jsx,tsx}",
--  ],
--  theme: {
--    extend: {},
--  },
--  plugins: [],
--}
-\ No newline at end of file
-+    content: [
-+        "./index.html",
-+        "./src/**/*.{js,ts,jsx,tsx}",
-+    ],
-+    darkMode: "class",
-+    theme: {
-+        extend: {
-+            colors: {
-+                "primary": "#1ff9f9",
-+                "secondary-magenta": "#f91fde",
-+                "secondary-lime": "#bef91f",
-+                "background-light": "#f5f8f8",
-+                "background-dark": "#0f1315", // Deep, almost black
-+                "surface-dark": "#161b1e",
-+                "surface-raised": "#1f2529",
-+            },
-+            fontFamily: {
-+                "display": ["Space Grotesk", "sans-serif"]
-+            },
-+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-+            boxShadow: {
-+                'glow-primary': '0 0 10px rgba(31, 249, 249, 0.5), 0 0 20px rgba(31, 249, 249, 0.3)',
-+                'glow-magenta': '0 0 10px rgba(249, 31, 222, 0.5), 0 0 20px rgba(249, 31, 222, 0.3)',
-+                'glow-lime': '0 0 10px rgba(190, 249, 31, 0.5), 0 0 20px rgba(190, 249, 31, 0.3)',
-+                'neumorphic-pressed': 'inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.05)',
-+                'neumorphic-flat': '4px 4px 10px rgba(0,0,0,0.5), -1px -1px 3px rgba(255,255,255,0.05)',
-+            },
-+            backgroundImage: {
-+                'grid-pattern': "linear-gradient(to right, #1f2529 1px, transparent 1px), linear-gradient(to bottom, #1f2529 1px, transparent 1px)",
-+            }
-+        },
-+    },
-+    plugins: [],
++  return 'javascript'; // Default fallback
 +}
 diff --git a/verification/script.py b/verification/script.py
-new file mode 100644
-index 0000000..eb37545
---- /dev/null
-+++ b/verification/script.py
-@@ -0,0 +1,19 @@
-+from playwright.sync_api import sync_playwright
-+
-+def run():
-+    with sync_playwright() as p:
-+        browser = p.chromium.launch(headless=True)
-+        page = browser.new_page(viewport={"width": 400, "height": 800}) # Mobile-ish viewport
-+        page.on("console", lambda msg: print(f"Console: {msg.text}"))
-+        page.on("pageerror", lambda err: print(f"Page Error: {err}"))
-+        
-+        response = page.goto("http://localhost:5173/")
-+        if response:
-+             print(f"Response: {response.status}")
-+        
-+        page.wait_for_timeout(3000)
-+        page.screenshot(path="verification/screenshot.png")
-+        browser.close()
-+
-+if __name__ == "__main__":
-+    run()
+deleted file mode 100644
+index eb37545..0000000
+--- a/verification/script.py
++++ /dev/null
+@@ -1,19 +0,0 @@
+-from playwright.sync_api import sync_playwright
+-
+-def run():
+-    with sync_playwright() as p:
+-        browser = p.chromium.launch(headless=True)
+-        page = browser.new_page(viewport={"width": 400, "height": 800}) # Mobile-ish viewport
+-        page.on("console", lambda msg: print(f"Console: {msg.text}"))
+-        page.on("pageerror", lambda err: print(f"Page Error: {err}"))
+-        
+-        response = page.goto("http://localhost:5173/")
+-        if response:
+-             print(f"Response: {response.status}")
+-        
+-        page.wait_for_timeout(3000)
+-        page.screenshot(path="verification/screenshot.png")
+-        browser.close()
+-
+-if __name__ == "__main__":
+-    run()
