@@ -1,706 +1,414 @@
-diff --git a/index.html b/index.html
-index aadedb3..dba2078 100644
---- a/index.html
-+++ b/index.html
-@@ -4,7 +4,7 @@
-     <meta charset="UTF-8" />
-     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
--    <title>Circadia: Bioluminescent Productivity</title>
-+    <title>CodeLoom Studio</title>
-     <link rel="preconnect" href="https://fonts.googleapis.com" />
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-diff --git a/package-lock.json b/package-lock.json
-index f27d716..fd3219d 100644
---- a/package-lock.json
-+++ b/package-lock.json
-@@ -14,7 +14,9 @@
-         "@tailwindcss/postcss": "^4.2.0",
-         "clsx": "^2.1.1",
-         "date-fns": "^4.1.0",
-+        "html-to-image": "^1.11.13",
-         "lucide-react": "^0.575.0",
-+        "prismjs": "^1.30.0",
-         "react": "^19.2.0",
-         "react-dom": "^19.2.0",
-         "tailwind-merge": "^3.5.0",
-@@ -23,6 +25,7 @@
-       "devDependencies": {
-         "@eslint/js": "^9.39.1",
-         "@types/node": "^24.10.1",
-+        "@types/prismjs": "^1.26.6",
-         "@types/react": "^19.2.7",
-         "@types/react-dom": "^19.2.3",
-         "@vitejs/plugin-react": "^5.1.1",
-@@ -1269,6 +1272,13 @@
-         "undici-types": "~7.16.0"
-       }
-     },
-+    "node_modules/@types/prismjs": {
-+      "version": "1.26.6",
-+      "resolved": "https://registry.npmjs.org/@types/prismjs/-/prismjs-1.26.6.tgz",
-+      "integrity": "sha512-vqlvI7qlMvcCBbVe0AKAb4f97//Hy0EBTaiW8AalRnG/xAN5zOiWWyrNqNXeq8+KAuvRewjCVY1+IPxk4RdNYw==",
-+      "dev": true,
-+      "license": "MIT"
-+    },
-     "node_modules/@types/react": {
-       "version": "19.2.14",
-       "resolved": "https://registry.npmjs.org/@types/react/-/react-19.2.14.tgz",
-@@ -2329,6 +2339,12 @@
-         "hermes-estree": "0.25.1"
-       }
-     },
-+    "node_modules/html-to-image": {
-+      "version": "1.11.13",
-+      "resolved": "https://registry.npmjs.org/html-to-image/-/html-to-image-1.11.13.tgz",
-+      "integrity": "sha512-cuOPoI7WApyhBElTTb9oqsawRvZ0rHhaHwghRLlTuffoD1B2aDemlCruLeZrUIIdvG7gs9xeELEPm6PhuASqrg==",
-+      "license": "MIT"
-+    },
-     "node_modules/ignore": {
-       "version": "5.3.2",
-       "resolved": "https://registry.npmjs.org/ignore/-/ignore-5.3.2.tgz",
-@@ -2995,6 +3011,15 @@
-         "node": ">= 0.8.0"
-       }
-     },
-+    "node_modules/prismjs": {
-+      "version": "1.30.0",
-+      "resolved": "https://registry.npmjs.org/prismjs/-/prismjs-1.30.0.tgz",
-+      "integrity": "sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==",
-+      "license": "MIT",
-+      "engines": {
-+        "node": ">=6"
-+      }
-+    },
-     "node_modules/punycode": {
-       "version": "2.3.1",
-       "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.3.1.tgz",
-diff --git a/package.json b/package.json
-index 7606df0..a18dba1 100644
---- a/package.json
-+++ b/package.json
-@@ -16,7 +16,9 @@
-     "@tailwindcss/postcss": "^4.2.0",
-     "clsx": "^2.1.1",
-     "date-fns": "^4.1.0",
-+    "html-to-image": "^1.11.13",
-     "lucide-react": "^0.575.0",
-+    "prismjs": "^1.30.0",
-     "react": "^19.2.0",
-     "react-dom": "^19.2.0",
-     "tailwind-merge": "^3.5.0",
-@@ -25,6 +27,7 @@
-   "devDependencies": {
-     "@eslint/js": "^9.39.1",
-     "@types/node": "^24.10.1",
-+    "@types/prismjs": "^1.26.6",
-     "@types/react": "^19.2.7",
-     "@types/react-dom": "^19.2.3",
-     "@vitejs/plugin-react": "^5.1.1",
-diff --git a/src/App.tsx b/src/App.tsx
-index e2c44f4..e13e529 100644
---- a/src/App.tsx
-+++ b/src/App.tsx
-@@ -1,103 +1,51 @@
--import { useEffect, useState } from 'react';
--import { DndContext, type DragEndEvent, DragOverlay, useSensor, useSensors, PointerSensor, type DragStartEvent } from '@dnd-kit/core';
--import { Layout } from './components/Layout';
--import { Header } from './components/Header';
--import { RadialDial } from './components/RadialDial';
--import { TaskBacklog } from './components/TaskBacklog';
--import { useStore } from './store/useStore';
--import { calculateAngle, degreesToTime } from './utils/time';
--import { TaskCard } from './components/TaskCard';
-+import { CodeInput } from './components/CodeInput';
-+import { PreviewCanvas } from './components/PreviewCanvas';
-+import { ControlPanel } from './components/ControlPanel';
-+import { ExportButton } from './components/ExportButton';
-+import { useCodeLoomStore } from './store/useCodeLoomStore';
- 
- function App() {
--  const setCurrentTime = useStore((state) => state.setCurrentTime);
--  const moveTask = useStore((state) => state.moveTask);
--  const tasks = useStore((state) => state.tasks);
--  const [activeId, setActiveId] = useState<string | null>(null);
-+  const { darkMode } = useCodeLoomStore();
- 
--  useEffect(() => {
--    const interval = setInterval(() => {
--      setCurrentTime(new Date());
--    }, 60000);
--    return () => clearInterval(interval);
--  }, [setCurrentTime]);
+diff --git a/src/App.css b/src/App.css
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/src/components/Header.tsx b/src/components/Header.tsx
+deleted file mode 100644
+index b313c12..0000000
+--- a/src/components/Header.tsx
++++ /dev/null
+@@ -1,29 +0,0 @@
+-import { useStore } from '../store/useStore';
 -
--  const sensors = useSensors(
--    useSensor(PointerSensor, {
--      activationConstraint: {
--        distance: 8,
--      },
--    })
--  );
+-export const Header = () => {
+-  const currentTime = useStore((state) => state.currentTime);
 -
--  const handleDragStart = (event: DragStartEvent) => {
--    setActiveId(event.active.id as string);
--  };
--
--  const handleDragEnd = (event: DragEndEvent) => {
--    const { active, over } = event;
--    
--    // Always clear active ID first
--    setActiveId(null);
--
--    if (over && over.id === 'radial-dial') {
--        const droppedRect = active.rect.current.translated;
--        if (!droppedRect) return;
-+  return (
-+    <div className={`min-h-screen w-full flex flex-col ${darkMode ? 'dark' : ''} bg-background-dark text-slate-100 font-display`}>
-+      {/* Background Grid Overlay */}
-+      <div className="fixed inset-0 pointer-events-none opacity-20 z-0 bg-grid"></div>
- 
--        const dropX = droppedRect.left + droppedRect.width / 2;
--        const dropY = droppedRect.top + droppedRect.height / 2;
-+      {/* Header */}
-+      <header className="flex items-center justify-between px-6 py-4 border-b border-surface-raised bg-surface-dark/80 backdrop-blur-md sticky top-0 z-50">
-+        <div className="flex items-center gap-2">
-+            <span className="material-symbols-outlined text-primary animate-pulse-beat" style={{ fontSize: '28px' }}>code</span>
-+            <h1 className="text-xl font-bold tracking-wider font-display">
-+                CODELOOM <span className="text-primary font-normal text-sm tracking-widest opacity-80">STUDIO</span>
-+            </h1>
-+        </div>
-+        <div className="flex items-center gap-4">
-+             <button className="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Documentation</button>
-+             <button className="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Github</button>
-+        </div>
-+      </header>
- 
--        const dialElement = document.getElementById('radial-dial');
--        
--        if (dialElement) {
--            const dialRect = dialElement.getBoundingClientRect();
--            const centerX = dialRect.left + dialRect.width / 2;
--            const centerY = dialRect.top + dialRect.height / 2;
-+      {/* Main Content */}
-+      <main className="flex-1 flex flex-col lg:flex-row overflow-hidden relative z-10">
-+         {/* Left/Top Panel: Controls & Input */}
-+         <aside className="w-full lg:w-[400px] flex-shrink-0 flex flex-col bg-surface-dark/90 border-r border-surface-raised overflow-y-auto p-6 gap-6 z-40 backdrop-blur-md shadow-2xl">
-+            <ControlPanel />
-+            <div className="flex-1 min-h-[300px] flex flex-col">
-+                <CodeInput />
-+            </div>
-+            <ExportButton />
-+         </aside>
- 
--            const angle = calculateAngle(dropX, dropY, centerX, centerY);
--            const time = degreesToTime(angle);
-+         {/* Center Panel: Preview */}
-+         <section className="flex-1 relative overflow-hidden flex flex-col bg-black/40">
-+            {/* Decorative Gradients */}
-+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 via-transparent to-secondary-magenta/5 pointer-events-none"></div>
-             
--            moveTask(active.id as string, time);
--        }
--    }
--  };
--
--  const activeTask = activeId ? tasks.find((t) => t.id === activeId) : null;
+-  const formattedTime = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 -
 -  return (
--    <Layout>
--      <Header />
--      <DndContext 
--        sensors={sensors} 
--        onDragStart={handleDragStart}
--        onDragEnd={handleDragEnd}
--      >
--        <main className="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-24 relative">
--           <RadialDial />
--           <TaskBacklog />
--        </main>
--        <DragOverlay>
--            {activeTask ? <TaskCard task={activeTask} /> : null}
--        </DragOverlay>
--      </DndContext>
--      
--      {/* Footer / Dock */}
--      <footer className="absolute bottom-0 w-full px-6 py-4 bg-surface-dark/95 backdrop-blur-xl border-t border-surface-raised z-30">
--        <div className="flex items-center justify-between gap-4 max-w-sm mx-auto">
--            <button className="flex-1 group h-14 rounded-lg bg-surface-raised shadow-neumorphic-flat active:shadow-neumorphic-pressed active:scale-95 transition-all flex flex-col items-center justify-center border border-transparent active:border-red-500/20">
--                <span className="material-symbols-outlined text-slate-400 group-active:text-red-500 transition-colors" style={{ fontVariationSettings: "'FILL' 1" }}>stop</span>
--                <span className="text-[10px] font-bold text-slate-500 uppercase mt-1">Stop</span>
--            </button>
--            <button className="flex-[1.5] group h-16 -mt-4 rounded-xl bg-surface-raised shadow-[0_0_20px_rgba(31,249,249,0.1),_4px_4px_10px_rgba(0,0,0,0.5)] active:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.5)] active:scale-95 transition-all flex flex-col items-center justify-center border border-primary/20 hover:border-primary/50">
--                <span className="material-symbols-outlined text-primary group-hover:drop-shadow-[0_0_5px_#1ff9f9] transition-all" style={{ fontSize: '36px', fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
--                <span className="text-[10px] font-bold text-primary uppercase mt-1">Focus</span>
--            </button>
--            <button className="flex-1 group h-14 rounded-lg bg-surface-raised shadow-neumorphic-flat active:shadow-neumorphic-pressed active:scale-95 transition-all flex flex-col items-center justify-center border border-transparent active:border-yellow-500/20">
--                <span className="material-symbols-outlined text-slate-400 group-active:text-yellow-500 transition-colors">delete_outline</span>
--                <span className="text-[10px] font-bold text-slate-500 uppercase mt-1">Clear</span>
--            </button>
+-    <header className="flex items-center justify-between px-6 py-4 border-b border-surface-raised bg-surface-dark/80 backdrop-blur-md sticky top-0 z-20">
+-      <div className="flex items-center gap-2">
+-        <span className="material-symbols-outlined text-primary animate-pulse-beat" style={{ fontSize: '28px' }}>
+-          graphic_eq
+-        </span>
+-        <h1 className="text-lg font-bold tracking-wider text-slate-100">CIRCADIA</h1>
+-      </div>
+-      <div className="flex flex-col items-center">
+-        <div className="text-3xl font-bold text-primary animate-pulse-beat leading-none">
+-          {formattedTime}
 -        </div>
--      </footer>
--    </Layout>
-+            <PreviewCanvas />
-+         </section>
-+      </main>
-+    </div>
-   );
- }
- 
-diff --git a/src/components/CodeInput.tsx b/src/components/CodeInput.tsx
-new file mode 100644
-index 0000000..a5c2c1b
---- /dev/null
-+++ b/src/components/CodeInput.tsx
-@@ -0,0 +1,33 @@
-+import React from 'react';
-+import { useCodeLoomStore } from '../store/useCodeLoomStore';
-+import { detectLanguage } from '../utils/detectLanguage';
-+
-+export const CodeInput = () => {
-+  const { code, setCode, setLanguage } = useCodeLoomStore();
-+
-+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-+    const newCode = e.target.value;
-+    setCode(newCode);
-+    
-+    // Auto-detect language
-+    const detected = detectLanguage(newCode);
-+    if (detected) {
-+        setLanguage(detected);
-+    }
-+  };
-+
-+  return (
-+    <div className="w-full h-full flex flex-col p-4 bg-surface-dark/50 backdrop-blur-sm border border-surface-raised rounded-xl shadow-neumorphic-pressed">
-+      <label className="text-xs font-bold text-slate-400 tracking-wider uppercase mb-2">
-+        Source Code
-+      </label>
-+      <textarea
-+        className="w-full h-full bg-transparent resize-none focus:outline-none font-mono text-sm text-slate-300 placeholder-slate-600"
-+        value={code}
-+        onChange={handleChange}
-+        placeholder="Paste your code here..."
-+        spellCheck={false}
-+      />
-+    </div>
-+  );
-+};
-diff --git a/src/components/ControlPanel.tsx b/src/components/ControlPanel.tsx
-new file mode 100644
-index 0000000..c906084
---- /dev/null
-+++ b/src/components/ControlPanel.tsx
-@@ -0,0 +1,130 @@
-+import { useCodeLoomStore } from '../store/useCodeLoomStore';
-+import { clsx } from 'clsx';
-+
-+export const ControlPanel = () => {
-+  const { 
-+    language, setLanguage,
-+    padding, setPadding,
-+    borderRadius, setBorderRadius,
-+    typographyScale, setTypographyScale,
-+    background, setBackground,
-+    darkMode, toggleDarkMode
-+  } = useCodeLoomStore();
-+
-+  const backgroundGradients = [
-+    'linear-gradient(135deg, #1f2529, #0f1315)', // Default Dark
-+    'linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)',
-+    'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)',
-+    'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)',
-+    'linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%)',
-+    'linear-gradient(to top, #c471f5 0%, #fa71cd 100%)',
-+    'linear-gradient(to right, #43e97b 0%, #38f9d7 100%)',
-+    'linear-gradient(to top, #30cfd0 0%, #330867 100%)',
-+  ];
-+
-+  return (
-+    <div className="w-full flex flex-col p-6 bg-surface-dark/80 backdrop-blur-md border border-surface-raised rounded-xl shadow-glass gap-6">
-+      <div className="flex justify-between items-center border-b border-surface-raised pb-4">
-+        <h2 className="text-lg font-bold text-slate-200 tracking-wider font-display">SETTINGS</h2>
-+        <button 
-+            onClick={toggleDarkMode}
-+            className="p-2 rounded-full hover:bg-surface-raised transition-colors text-slate-400 hover:text-white"
-+            title="Toggle Dark Mode"
-+        >
-+            <span className="material-symbols-outlined">{darkMode ? 'light_mode' : 'dark_mode'}</span>
-+        </button>
-+      </div>
-+
-+      {/* Language */}
-+      <div className="flex flex-col gap-2">
-+        <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Language</label>
-+        <select 
-+            value={language}
-+            onChange={(e) => setLanguage(e.target.value)}
-+            className="bg-surface-raised text-slate-200 text-sm rounded-lg p-2.5 focus:ring-primary focus:border-primary block w-full border border-surface-dark/50"
-+        >
-+            <option value="javascript">JavaScript</option>
-+            <option value="typescript">TypeScript</option>
-+            <option value="jsx">JSX</option>
-+            <option value="tsx">TSX</option>
-+            <option value="css">CSS</option>
-+            <option value="html">HTML</option>
-+            <option value="python">Python</option>
-+            <option value="java">Java</option>
-+            <option value="c">C</option>
-+            <option value="rust">Rust</option>
-+            <option value="go">Go</option>
-+            <option value="json">JSON</option>
-+            <option value="bash">Bash</option>
-+        </select>
-+      </div>
-+
-+      {/* Padding */}
-+      <div className="flex flex-col gap-2">
-+        <div className="flex justify-between">
-+            <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Padding</label>
-+            <span className="text-xs text-primary">{padding}px</span>
-+        </div>
-+        <input 
-+            type="range" 
-+            min="0" 
-+            max="128" 
-+            value={padding} 
-+            onChange={(e) => setPadding(Number(e.target.value))}
-+            className="w-full h-2 bg-surface-raised rounded-lg appearance-none cursor-pointer accent-primary"
-+        />
-+      </div>
-+
-+      {/* Border Radius */}
-+      <div className="flex flex-col gap-2">
-+        <div className="flex justify-between">
-+            <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Radius</label>
-+            <span className="text-xs text-primary">{borderRadius}px</span>
-+        </div>
-+        <input 
-+            type="range" 
-+            min="0" 
-+            max="64" 
-+            value={borderRadius} 
-+            onChange={(e) => setBorderRadius(Number(e.target.value))}
-+            className="w-full h-2 bg-surface-raised rounded-lg appearance-none cursor-pointer accent-primary"
-+        />
-+      </div>
-+
-+      {/* Typography Scale */}
-+      <div className="flex flex-col gap-2">
-+        <div className="flex justify-between">
-+            <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Scale</label>
-+            <span className="text-xs text-primary">{typographyScale}x</span>
-+        </div>
-+        <input 
-+            type="range" 
-+            min="0.5" 
-+            max="2" 
-+            step="0.1"
-+            value={typographyScale} 
-+            onChange={(e) => setTypographyScale(Number(e.target.value))}
-+            className="w-full h-2 bg-surface-raised rounded-lg appearance-none cursor-pointer accent-primary"
-+        />
-+      </div>
-+
-+      {/* Background Gradient */}
-+      <div className="flex flex-col gap-2">
-+        <label className="text-xs font-bold text-slate-400 tracking-wider uppercase">Background</label>
-+        <div className="grid grid-cols-4 gap-2">
-+            {backgroundGradients.map((grad, i) => (
-+                <button 
-+                    key={i}
-+                    onClick={() => setBackground(grad)}
-+                    className={clsx(
-+                        "w-8 h-8 rounded-full shadow-md hover:scale-110 transition-transform border-2",
-+                        background === grad ? "border-white" : "border-transparent"
-+                    )}
-+                    style={{ background: grad }}
-+                />
-+            ))}
-+        </div>
-+      </div>
-+    </div>
-+  );
-+};
-diff --git a/src/components/ExportButton.tsx b/src/components/ExportButton.tsx
-new file mode 100644
-index 0000000..4a75190
---- /dev/null
-+++ b/src/components/ExportButton.tsx
-@@ -0,0 +1,54 @@
-+import { useState } from 'react';
-+import { toPng, toSvg } from 'html-to-image';
-+
-+export const ExportButton = () => {
-+  const [loading, setLoading] = useState(false);
-+
-+  const handleExport = async (format: 'png' | 'svg') => {
-+    setLoading(true);
-+    const node = document.getElementById('preview-canvas');
-+    if (!node) {
-+        setLoading(false);
-+        return;
-+    }
-+
-+    try {
-+        let dataUrl;
-+        if (format === 'png') {
-+            dataUrl = await toPng(node, { cacheBust: true, pixelRatio: 2 });
-+        } else {
-+            dataUrl = await toSvg(node, { cacheBust: true });
-+        }
-+        
-+        const link = document.createElement('a');
-+        link.download = `codeloom-${Date.now()}.${format}`;
-+        link.href = dataUrl;
-+        link.click();
-+    } catch (err) {
-+        console.error('oops, something went wrong!', err);
-+    } finally {
-+        setLoading(false);
-+    }
-+  };
-+
-+  return (
-+    <div className="w-full flex gap-4 mt-4">
-+      <button 
-+        onClick={() => handleExport('png')}
-+        disabled={loading}
-+        className="flex-1 flex items-center justify-center gap-2 py-3 bg-surface-raised hover:bg-surface-raised/80 text-white rounded-lg shadow-neumorphic-flat transition-all active:scale-95 disabled:opacity-50 border border-white/5"
-+      >
-+        <span className="material-symbols-outlined">image</span>
-+        <span className="text-xs font-bold uppercase tracking-wider">Export PNG</span>
-+      </button>
-+      <button 
-+        onClick={() => handleExport('svg')}
-+        disabled={loading}
-+        className="flex-1 flex items-center justify-center gap-2 py-3 bg-surface-raised hover:bg-surface-raised/80 text-white rounded-lg shadow-neumorphic-flat transition-all active:scale-95 disabled:opacity-50 border border-white/5"
-+      >
-+        <span className="material-symbols-outlined">code</span>
-+        <span className="text-xs font-bold uppercase tracking-wider">Export SVG</span>
-+      </button>
-+    </div>
-+  );
-+};
-diff --git a/src/components/PreviewCanvas.tsx b/src/components/PreviewCanvas.tsx
-new file mode 100644
-index 0000000..53e7582
---- /dev/null
-+++ b/src/components/PreviewCanvas.tsx
-@@ -0,0 +1,84 @@
-+import { useEffect, useRef } from 'react';
-+import Prism from 'prismjs';
-+import 'prismjs/themes/prism-tomorrow.css'; 
-+// Import common languages
-+import 'prismjs/components/prism-javascript';
-+import 'prismjs/components/prism-typescript';
-+import 'prismjs/components/prism-css';
-+import 'prismjs/components/prism-json';
-+import 'prismjs/components/prism-jsx';
-+import 'prismjs/components/prism-tsx';
-+import 'prismjs/components/prism-java';
-+import 'prismjs/components/prism-python';
-+import 'prismjs/components/prism-c';
-+import 'prismjs/components/prism-rust';
-+import 'prismjs/components/prism-go';
-+import 'prismjs/components/prism-markup'; // html
-+import 'prismjs/components/prism-bash';
-+
-+import { useCodeLoomStore } from '../store/useCodeLoomStore';
-+
-+export const PreviewCanvas = () => {
-+  const { code, language, padding, borderRadius, typographyScale, background, darkMode } = useCodeLoomStore();
-+  const codeRef = useRef<HTMLElement>(null);
-+  
-+  useEffect(() => {
-+    if (codeRef.current) {
-+      // Force Prism to highlight again
-+      Prism.highlightElement(codeRef.current);
-+    }
-+  }, [code, language]);
-+
-+  return (
-+    <div className="w-full h-full flex items-center justify-center p-8 bg-black/20 overflow-auto">
-+      <div 
-+        id="preview-canvas"
-+        className="transition-all duration-300 ease-in-out relative shadow-2xl min-w-[300px]"
-+        style={{
-+          background: background,
-+          padding: `${padding}px`,
-+          borderRadius: `${borderRadius}px`,
-+        }}
-+      >
-+        <div 
-+            className={`relative overflow-hidden ${darkMode ? 'bg-black/40' : 'bg-white/80'} backdrop-blur-md border border-white/10 shadow-lg`}
-+            style={{
-+                borderRadius: `${Math.max(4, borderRadius - 4)}px`, 
-+            }}
-+        >
-+            {/* Window Controls (Mac-style) */}
-+            <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-white/5">
-+                <div className="w-3 h-3 rounded-full bg-[#ff5f56] shadow-sm"></div>
-+                <div className="w-3 h-3 rounded-full bg-[#ffbd2e] shadow-sm"></div>
-+                <div className="w-3 h-3 rounded-full bg-[#27c93f] shadow-sm"></div>
-+                <div className="flex-1 text-center text-[10px] text-white/30 font-mono uppercase tracking-widest ml-[-36px]">
-+                    {language}
-+                </div>
-+            </div>
-+
-+            <div 
-+                className="overflow-x-auto"
-+                style={{
-+                    fontSize: `${14 * typographyScale}px`,
-+                    lineHeight: `${1.5 * typographyScale}`,
-+                }}
-+            >
-+                <pre 
-+                    className={`!bg-transparent !m-0 !p-6 font-mono ${!darkMode ? '!text-slate-800' : '!text-slate-200'}`} 
-+                    style={{ margin: 0 }}
-+                >
-+                    <code ref={codeRef} className={`language-${language}`}>
-+                        {code}
-+                    </code>
-+                </pre>
-+            </div>
-+        </div>
-+        
-+        {/* Watermark / Branding */}
-+        <div className="absolute bottom-2 right-4 opacity-30 pointer-events-none">
-+             <span className="text-[10px] font-bold text-white uppercase tracking-widest font-display">CodeLoom</span>
-+        </div>
-+      </div>
-+    </div>
-+  );
-+};
-diff --git a/src/index.css b/src/index.css
-index 4f55e6e..2067fcb 100644
---- a/src/index.css
-+++ b/src/index.css
-@@ -2,6 +2,22 @@
- 
- @theme {
-   --font-display: "Space Grotesk", sans-serif;
-+  
-+  --color-primary: #1ff9f9;
-+  --color-secondary-magenta: #f91fde;
-+  --color-secondary-lime: #bef91f;
-+  --color-background-light: #f5f8f8;
-+  --color-background-dark: #0f1315;
-+  --color-surface-dark: #161b1e;
-+  --color-surface-raised: #1f2529;
-+
-+  --shadow-glow-primary: 0 0 10px rgba(31, 249, 249, 0.5), 0 0 20px rgba(31, 249, 249, 0.3);
-+  --shadow-glow-magenta: 0 0 10px rgba(249, 31, 222, 0.5), 0 0 20px rgba(249, 31, 222, 0.3);
-+  --shadow-glow-lime: 0 0 10px rgba(190, 249, 31, 0.5), 0 0 20px rgba(190, 249, 31, 0.3);
-+  --shadow-neumorphic-pressed: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.05);
-+  --shadow-neumorphic-flat: 4px 4px 10px rgba(0,0,0,0.5), -1px -1px 3px rgba(255,255,255,0.05);
-+
-+  --background-image-grid-pattern: linear-gradient(to right, #1f2529 1px, transparent 1px), linear-gradient(to bottom, #1f2529 1px, transparent 1px);
- }
- 
- body {
-@@ -25,7 +41,7 @@ body {
- }
- .radar-line {
-   transform-origin: center;
--  animation: radarSweep 24s linear infinite; /* Slowed down for 24h feel, though 24s is still fast. 24h is too slow for demo. Let's keep it decorative. */
-+  animation: radarSweep 24s linear infinite; 
- }
- 
- /* Pulse Animation */
-diff --git a/src/store/useCodeLoomStore.ts b/src/store/useCodeLoomStore.ts
-new file mode 100644
-index 0000000..f111821
---- /dev/null
-+++ b/src/store/useCodeLoomStore.ts
-@@ -0,0 +1,37 @@
-+import { create } from 'zustand';
-+
-+interface CodeLoomState {
-+  code: string;
-+  language: string;
-+  padding: number;
-+  borderRadius: number;
-+  typographyScale: number;
-+  background: string;
-+  darkMode: boolean;
-+  
-+  setCode: (code: string) => void;
-+  setLanguage: (language: string) => void;
-+  setPadding: (padding: number) => void;
-+  setBorderRadius: (borderRadius: number) => void;
-+  setTypographyScale: (scale: number) => void;
-+  setBackground: (background: string) => void;
-+  toggleDarkMode: () => void;
-+}
-+
-+export const useCodeLoomStore = create<CodeLoomState>((set) => ({
-+  code: '// Paste your code here\nconsole.log("Hello, World!");',
-+  language: 'javascript',
-+  padding: 32,
-+  borderRadius: 16,
-+  typographyScale: 1,
-+  background: 'linear-gradient(135deg, #1f2529, #0f1315)',
-+  darkMode: true,
-+
-+  setCode: (code) => set({ code }),
-+  setLanguage: (language) => set({ language }),
-+  setPadding: (padding) => set({ padding }),
-+  setBorderRadius: (borderRadius) => set({ borderRadius }),
-+  setTypographyScale: (typographyScale) => set({ typographyScale }),
-+  setBackground: (background) => set({ background }),
-+  toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
-+}));
-diff --git a/src/utils/detectLanguage.ts b/src/utils/detectLanguage.ts
-new file mode 100644
-index 0000000..2f70f74
---- /dev/null
-+++ b/src/utils/detectLanguage.ts
-@@ -0,0 +1,22 @@
-+export function detectLanguage(code: string): string {
-+  if (!code) return 'javascript';
-+  
-+  const trimmedCode = code.trim();
-+
-+  // Basic Heuristics
-+  if (trimmedCode.startsWith('<!DOCTYPE html>') || trimmedCode.includes('</html>')) return 'html';
-+  if (trimmedCode.includes('import React') || trimmedCode.includes('export default function') || trimmedCode.includes('className=')) return 'tsx';
-+  if (trimmedCode.includes('public class') || trimmedCode.includes('System.out.println')) return 'java';
-+  if (trimmedCode.includes('def ') && trimmedCode.includes(':')) return 'python';
-+  if (trimmedCode.includes('#include <stdio.h>') || trimmedCode.includes('int main(')) return 'c';
-+  if (trimmedCode.includes('fn main()') || trimmedCode.includes('println!')) return 'rust';
-+  if (trimmedCode.includes('package main') && trimmedCode.includes('func main()')) return 'go';
-+  if (trimmedCode.includes('<?php')) return 'php';
-+  if (trimmedCode.includes('background-color:') || trimmedCode.includes('margin:')) return 'css';
-+  if (trimmedCode.startsWith('{') && trimmedCode.endsWith('}')) return 'json';
-+
-+  // Default to JavaScript if it looks like JS
-+  if (trimmedCode.includes('const ') || trimmedCode.includes('let ') || trimmedCode.includes('console.log') || trimmedCode.includes('function')) return 'javascript';
-+
-+  return 'javascript'; // Default fallback
-+}
-diff --git a/verification/script.py b/verification/script.py
+-        <div className="text-[10px] text-slate-400 font-medium tracking-widest uppercase mt-1">
+-          CURRENT TIME
+-        </div>
+-      </div>
+-      <button className="p-2 rounded-full hover:bg-surface-raised transition-colors text-slate-400 hover:text-white">
+-        <span className="material-symbols-outlined">settings</span>
+-      </button>
+-    </header>
+-  );
+-};
+diff --git a/src/components/Layout.tsx b/src/components/Layout.tsx
 deleted file mode 100644
-index eb37545..0000000
---- a/verification/script.py
+index 09d79ef..0000000
+--- a/src/components/Layout.tsx
 +++ /dev/null
 @@ -1,19 +0,0 @@
--from playwright.sync_api import sync_playwright
+-import React from 'react';
 -
--def run():
--    with sync_playwright() as p:
--        browser = p.chromium.launch(headless=True)
--        page = browser.new_page(viewport={"width": 400, "height": 800}) # Mobile-ish viewport
--        page.on("console", lambda msg: print(f"Console: {msg.text}"))
--        page.on("pageerror", lambda err: print(f"Page Error: {err}"))
--        
--        response = page.goto("http://localhost:5173/")
--        if response:
--             print(f"Response: {response.status}")
--        
--        page.wait_for_timeout(3000)
--        page.screenshot(path="verification/screenshot.png")
--        browser.close()
+-interface LayoutProps {
+-  children: React.ReactNode;
+-}
 -
--if __name__ == "__main__":
--    run()
+-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+-  return (
+-    <div className="bg-background-light dark:bg-background-dark min-h-screen text-slate-900 dark:text-slate-100 relative overflow-hidden">
+-      {/* Background Grid */}
+-      <div className="fixed inset-0 pointer-events-none opacity-20 z-0 bg-grid-pattern bg-grid"></div>
+-      
+-      {/* Main Container */}
+-      <div className="relative z-10 flex flex-col h-screen max-w-md mx-auto overflow-hidden bg-background-light/50 dark:bg-background-dark/50 backdrop-blur-sm shadow-2xl border-x border-surface-raised">
+-        {children}
+-      </div>
+-    </div>
+-  );
+-};
+diff --git a/src/components/RadialDial.tsx b/src/components/RadialDial.tsx
+deleted file mode 100644
+index ac3ceab..0000000
+--- a/src/components/RadialDial.tsx
++++ /dev/null
+@@ -1,124 +0,0 @@
+-import { useDroppable } from '@dnd-kit/core';
+-import { useStore } from '../store/useStore';
+-import { timeToDegrees, getPointOnCircle } from '../utils/time';
+-
+-const RADIUS = {
+-  high: 190,
+-  medium: 155,
+-  low: 120,
+-};
+-
+-const STROKE_WIDTH = 18;
+-
+-const describeArc = (x: number, y: number, radius: number, startAngle: number, endAngle: number) => {
+-    let end = endAngle;
+-    if (end < startAngle) end += 360;
+-    
+-    const p1 = getPointOnCircle(radius, startAngle, x, y);
+-    const p2 = getPointOnCircle(radius, end, x, y);
+-
+-    const largeArcFlag = end - startAngle <= 180 ? "0" : "1";
+-    
+-    return [
+-        "M", p1.x, p1.y, 
+-        "A", radius, radius, 0, largeArcFlag, 1, p2.x, p2.y
+-    ].join(" ");
+-};
+-
+-export const RadialDial = () => {
+-  const { setNodeRef } = useDroppable({
+-    id: 'radial-dial',
+-  });
+-  
+-  const allTasks = useStore((state) => state.tasks);
+-  const tasks = allTasks.filter((t) => t.assignedTime !== null);
+-  const currentTime = useStore((state) => state.currentTime);
+-
+-  const timeMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+-  const timeDegrees = timeToDegrees(timeMinutes);
+-
+-  return (
+-    <section className="relative flex-shrink-0 w-full aspect-square flex items-center justify-center p-4 my-2">
+-      {/* Center Button */}
+-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+-        <div className="w-24 h-24 rounded-full border border-surface-raised bg-surface-dark shadow-neumorphic-flat flex items-center justify-center z-10 pointer-events-auto cursor-pointer hover:bg-surface-raised transition-colors group">
+-          <span className="material-symbols-outlined text-slate-600 text-4xl group-hover:text-primary transition-colors">play_circle</span>
+-        </div>
+-      </div>
+-
+-      <div ref={setNodeRef} id="radial-dial" className="relative w-full h-full max-w-[360px] max-h-[360px]">
+-        <svg className="w-full h-full" viewBox="0 0 400 400">
+-           <defs>
+-            <filter id="glow-cyan" x="-50%" y="-50%" width="200%" height="200%">
+-                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+-                <feMerge>
+-                    <feMergeNode in="coloredBlur"/>
+-                    <feMergeNode in="SourceGraphic"/>
+-                </feMerge>
+-            </filter>
+-             <filter id="glow-magenta" x="-50%" y="-50%" width="200%" height="200%">
+-                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+-                <feMerge>
+-                    <feMergeNode in="coloredBlur"/>
+-                    <feMergeNode in="SourceGraphic"/>
+-                </feMerge>
+-            </filter>
+-             <filter id="glow-lime" x="-50%" y="-50%" width="200%" height="200%">
+-                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+-                <feMerge>
+-                    <feMergeNode in="coloredBlur"/>
+-                    <feMergeNode in="SourceGraphic"/>
+-                </feMerge>
+-            </filter>
+-          </defs>
+-
+-          {/* Background Rings */}
+-          <circle cx="200" cy="200" r={RADIUS.high} fill="none" stroke="#1f2529" strokeWidth="24" className="transition-colors hover:stroke-surface-raised" />
+-          <circle cx="200" cy="200" r={RADIUS.medium} fill="none" stroke="#1f2529" strokeWidth="24" className="transition-colors hover:stroke-surface-raised" />
+-          <circle cx="200" cy="200" r={RADIUS.low} fill="none" stroke="#1f2529" strokeWidth="24" className="transition-colors hover:stroke-surface-raised" />
+-          <circle cx="200" cy="200" r={85} fill="none" stroke="#1f2529" strokeWidth="24" />
+-
+-          {/* Render Tasks */}
+-          {tasks.map((task) => {
+-             const startAngle = timeToDegrees(task.assignedTime!);
+-             const endAngle = timeToDegrees(task.assignedTime! + task.duration);
+-             const radius = RADIUS[task.energy];
+-             const color = task.energy === 'high' ? '#f91fde' : task.energy === 'medium' ? '#bef91f' : '#1ff9f9';
+-             const filter = task.energy === 'high' ? 'url(#glow-magenta)' : task.energy === 'medium' ? 'url(#glow-lime)' : 'url(#glow-cyan)';
+-             
+-             return (
+-               <g key={task.id} className="cursor-pointer hover:opacity-80 transition-opacity">
+-                 <path 
+-                   d={describeArc(200, 200, radius, startAngle, endAngle)} 
+-                   fill="none" 
+-                   stroke={color} 
+-                   strokeWidth={STROKE_WIDTH} 
+-                   strokeLinecap="round"
+-                   filter={filter}
+-                 />
+-               </g>
+-             );
+-          })}
+-
+-          {/* Current Time Indicator (Radar Line) */}
+-           <line 
+-             x1="200" y1="200" 
+-             x2="200" y2="20" 
+-             stroke="#1ff9f9" 
+-             strokeWidth="2"
+-             strokeDasharray="4 4"
+-             className="opacity-50"
+-             transform={`rotate(${timeDegrees} 200 200)`}
+-           />
+-        </svg>
+-        
+-        {/* Radar Sweep Animation Overlay */}
+-        <div className="absolute inset-0 pointer-events-none radar-line z-20">
+-          <div className="w-full h-full relative">
+-            <div className="absolute top-0 left-1/2 w-[2px] h-1/2 bg-gradient-to-b from-primary via-primary/50 to-transparent origin-bottom shadow-[0_0_10px_#1ff9f9]"></div>
+-          </div>
+-        </div>
+-      </div>
+-    </section>
+-  );
+-};
+diff --git a/src/components/TaskBacklog.tsx b/src/components/TaskBacklog.tsx
+deleted file mode 100644
+index 8a5473e..0000000
+--- a/src/components/TaskBacklog.tsx
++++ /dev/null
+@@ -1,26 +0,0 @@
+-import { useStore } from '../store/useStore';
+-import { TaskCard } from './TaskCard';
+-
+-export const TaskBacklog = () => {
+-  const allTasks = useStore((state) => state.tasks);
+-  const tasks = allTasks.filter((t) => t.assignedTime === null);
+-
+-  return (
+-    <section className="flex flex-col gap-4 px-6 mt-4 pb-24">
+-      <div className="flex justify-between items-center text-xs font-bold text-slate-400 tracking-wider uppercase">
+-        <span>Backlog</span>
+-        <span className="text-primary">{tasks.length} TASKS</span>
+-      </div>
+-      <div className="flex gap-4 overflow-x-auto no-scrollbar bg-surface-dark/50 p-4 rounded-xl border border-surface-raised shadow-neumorphic-pressed min-h-[120px] items-center">
+-        {tasks.map((task) => (
+-          <TaskCard key={task.id} task={task} />
+-        ))}
+-        {tasks.length === 0 && (
+-          <div className="w-full text-center text-slate-600 text-xs italic py-4">
+-            No tasks in backlog
+-          </div>
+-        )}
+-      </div>
+-    </section>
+-  );
+-};
+diff --git a/src/components/TaskCard.tsx b/src/components/TaskCard.tsx
+deleted file mode 100644
+index fb72fd3..0000000
+--- a/src/components/TaskCard.tsx
++++ /dev/null
+@@ -1,61 +0,0 @@
+-import React from 'react';
+-import { useDraggable } from '@dnd-kit/core';
+-import { CSS } from '@dnd-kit/utilities';
+-import type { Task } from '../store/useStore';
+-import clsx from 'clsx';
+-
+-interface TaskCardProps {
+-  task: Task;
+-}
+-
+-export const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
+-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+-    id: task.id,
+-    data: { task },
+-  });
+-
+-  const style = {
+-    transform: CSS.Translate.toString(transform),
+-  };
+-
+-  const energyColor = 
+-    task.energy === 'high' ? 'text-secondary-magenta' :
+-    task.energy === 'medium' ? 'text-secondary-lime' :
+-    'text-primary';
+-  
+-  const borderColor = 
+-    task.energy === 'high' ? 'border-secondary-magenta/50' :
+-    task.energy === 'medium' ? 'border-secondary-lime/50' :
+-    'border-primary/50';
+-
+-  const shadowColor = 
+-    task.energy === 'high' ? 'shadow-[0_0_15px_rgba(249,31,222,0.15)]' :
+-    task.energy === 'medium' ? 'shadow-[0_0_15px_rgba(190,249,31,0.15)]' :
+-    'shadow-[0_0_15px_rgba(31,249,249,0.15)]';
+-
+-  return (
+-    <div
+-      ref={setNodeRef}
+-      style={style}
+-      {...listeners}
+-      {...attributes}
+-      className={clsx(
+-        "flex flex-col gap-2 min-w-[120px] p-3 rounded-xl bg-surface-dark border transition-all cursor-grab active:cursor-grabbing",
+-        borderColor,
+-        shadowColor,
+-        isDragging ? 'opacity-50 z-50 scale-105' : 'opacity-100',
+-        "hover:border-opacity-100 hover:scale-[1.02]"
+-      )}
+-    >
+-      <div className="flex justify-between items-start">
+-         <span className={clsx("material-symbols-outlined text-sm", energyColor)}>
+-            {task.energy === 'high' ? 'bolt' : task.energy === 'medium' ? 'battery_charging_full' : 'spa'}
+-         </span>
+-         <span className="text-[10px] font-mono text-slate-500 font-bold">{task.duration}m</span>
+-      </div>
+-      <h3 className="text-xs font-bold text-slate-200 leading-tight line-clamp-2">
+-        {task.title}
+-      </h3>
+-    </div>
+-  );
+-};
+diff --git a/src/store/useStore.ts b/src/store/useStore.ts
+deleted file mode 100644
+index aa6fc23..0000000
+--- a/src/store/useStore.ts
++++ /dev/null
+@@ -1,54 +0,0 @@
+-import { create } from 'zustand';
+-
+-export type EnergyLevel = 'high' | 'medium' | 'low';
+-
+-export interface Task {
+-  id: string;
+-  title: string;
+-  duration: number; // in minutes
+-  energy: EnergyLevel;
+-  assignedTime: number | null; // minutes from midnight (0-1440) or null if backlog
+-}
+-
+-export interface Schedule {
+-  sleepTime: number; // hour 0-24
+-  wakeTime: number; // hour 0-24
+-  peakTime: number; // hour 0-24
+-}
+-
+-interface StoreState {
+-  tasks: Task[];
+-  schedule: Schedule;
+-  currentTime: Date;
+-  addTask: (task: Omit<Task, 'id' | 'assignedTime'>) => void;
+-  moveTask: (id: string, assignedTime: number | null) => void;
+-  updateSchedule: (schedule: Partial<Schedule>) => void;
+-  setCurrentTime: (time: Date) => void;
+-}
+-
+-export const useStore = create<StoreState>((set) => ({
+-  tasks: [
+-    { id: '1', title: 'Deep Work: Core Architecture', duration: 90, energy: 'high', assignedTime: null },
+-    { id: '2', title: 'Team Sync', duration: 30, energy: 'medium', assignedTime: null },
+-    { id: '3', title: 'Email Triage', duration: 15, energy: 'low', assignedTime: null },
+-    { id: '4', title: 'Design Review', duration: 60, energy: 'high', assignedTime: null },
+-    { id: '5', title: 'Documentation', duration: 45, energy: 'medium', assignedTime: null },
+-    { id: '6', title: 'Break / Meditation', duration: 15, energy: 'low', assignedTime: null },
+-  ],
+-  schedule: {
+-    sleepTime: 23,
+-    wakeTime: 7,
+-    peakTime: 10,
+-  },
+-  currentTime: new Date(),
+-  addTask: (task) => set((state) => ({
+-    tasks: [...state.tasks, { ...task, id: Math.random().toString(36).substr(2, 9), assignedTime: null }]
+-  })),
+-  moveTask: (id, assignedTime) => set((state) => ({
+-    tasks: state.tasks.map((t) => t.id === id ? { ...t, assignedTime } : t)
+-  })),
+-  updateSchedule: (newSchedule) => set((state) => ({
+-    schedule: { ...state.schedule, ...newSchedule }
+-  })),
+-  setCurrentTime: (time) => set({ currentTime: time }),
+-}));
+diff --git a/src/utils/time.ts b/src/utils/time.ts
+deleted file mode 100644
+index 36b6f0a..0000000
+--- a/src/utils/time.ts
++++ /dev/null
+@@ -1,31 +0,0 @@
+-export const formatTime = (totalMinutes: number): string => {
+-  const h = Math.floor(totalMinutes / 60) % 24;
+-  const m = Math.floor(totalMinutes % 60);
+-  return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+-};
+-
+-export const timeToDegrees = (minutes: number): number => {
+-  return (minutes / 1440) * 360;
+-};
+-
+-export const degreesToTime = (degrees: number): number => {
+-  let d = degrees % 360;
+-  if (d < 0) d += 360;
+-  return Math.round((d / 360) * 1440);
+-};
+-
+-export const getPointOnCircle = (radius: number, degrees: number, cx: number, cy: number) => {
+-  const radians = (degrees - 90) * (Math.PI / 180); 
+-  return {
+-    x: cx + radius * Math.cos(radians),
+-    y: cy + radius * Math.sin(radians),
+-  };
+-};
+-
+-export const calculateAngle = (x: number, y: number, cx: number, cy: number): number => {
+-  const dx = x - cx;
+-  const dy = y - cy;
+-  let theta = Math.atan2(dy, dx); 
+-  theta *= 180 / Math.PI; 
+-  return (theta + 90 + 360) % 360; 
+-};
+diff --git a/src/vite-env.d.ts b/src/vite-env.d.ts
+new file mode 100644
+index 0000000..11f02fe
+--- /dev/null
++++ b/src/vite-env.d.ts
+@@ -0,0 +1 @@
++/// <reference types="vite/client" />
+diff --git a/tailwind.config.js b/tailwind.config.js
+deleted file mode 100644
+index 89a305e..0000000
+--- a/tailwind.config.js
++++ /dev/null
+@@ -1,11 +0,0 @@
+-/** @type {import('tailwindcss').Config} */
+-export default {
+-  content: [
+-    "./index.html",
+-    "./src/**/*.{js,ts,jsx,tsx}",
+-  ],
+-  theme: {
+-    extend: {},
+-  },
+-  plugins: [],
+-}
+\ No newline at end of file
